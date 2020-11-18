@@ -8,10 +8,12 @@
 
 class ConsoleIO {
 private:
+    HWND console_window;
     HANDLE screen_buffer;
     short screen_width;
     short screen_height;
 
+    // adjusts window to desired width and height
     void _set_window() { // https://stackoverflow.com/a/40634467
         COORD const size = { screen_width, screen_height };
 
@@ -31,10 +33,12 @@ private:
 
 public:
     ConsoleIO() {
+        console_window = GetConsoleWindow();
         screen_buffer = GetStdHandle(STD_OUTPUT_HANDLE);
         screen_width = 90;
         screen_height = 25;
 
+        SetWindowLong(console_window, GWL_STYLE, GetWindowLong(console_window, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
         _set_window();
         _set_cursor();
     }
