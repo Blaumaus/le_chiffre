@@ -6,8 +6,13 @@
 #include "memory.hpp"
 #include "client.hpp"
 #include "signatures.hpp"
+#include <iostream>
 
 using namespace hazedumper;
+
+struct speed_vector {
+	float x, y, z;
+};
 
 class PlayerEntity {
 private:
@@ -34,8 +39,16 @@ public:
 
 	// 4 - don't attack
 	// 5 - attack
+	// 6 - attack once, next reset to 4
 	void set_attack_state(DWORD val) {
 		memory->write_mem<DWORD>(memory->clientBaseAddr + signatures::dwForceAttack, val);
+	}
+
+	// 4 - don't jump
+	// 5 - jump
+	// 6 - jump once, next reset to 4
+	void set_jump_state(DWORD val) {
+		memory->write_mem<DWORD>(memory->clientBaseAddr + signatures::dwForceJump, val);
 	}
 
 	void set_flash_duration(float val) {
@@ -64,6 +77,20 @@ public:
 		return memory->read_mem<int>(playerBaseAddr + netvars::m_iTeamNum);
 	}
 
+	// FL_ONGROUND   (1 << 0) on the ground
+	// FL_DUCKING    (1 << 1) fully crouched
+    // FL_WATERJUMP  (1 << 2) jumping out of water
+    // FL_ONTRAIN    (1 << 3) _controlling_ a train
+    // FL_INRAIN     (1 << 4) standing in rain
+    // FL_FROZEN     (1 << 5) frozen
+    // FL_ATCONTROLS (1 << 6) can't move
+    // FL_CLIENT     (1 << 7) player
+    // FL_FAKECLIENT (1 << 8) fake client
+	// FL_INWATER    (1 << 9) in water
+	BYTE get_flags() {
+		return memory->read_mem<BYTE>(playerBaseAddr + netvars::m_fFlags);
+	}
+
 	float get_flash_duration() {
 		return memory->read_mem<float>(playerBaseAddr + netvars::m_flFlashDuration);
 	}
@@ -80,5 +107,14 @@ public:
 		return memory->read_mem<bool>(memory->clientBaseAddr + signatures::is_c4_owner);
 	}
 
+	speed_vector get_velocity() {
+		return memory->read_mem<speed_vector>(playerBaseAddr + netvars::m_vecVelocity);
+	}
+
+	bool is_moving() {
+		speed_vector vec = get_velocity();
+		float sum = vec.x + vec.y + vec.z;
+		return sum < -0.003 || sum > 0; // 0.003 due to incorrect float precision
+	}
 };
 #endif
