@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 struct hacks_coords {
-    COORD no_flash, activate_trigger, use_trigger, team_wh, enemy_wh, radar_hack, process, game;
+    COORD no_flash, activate_trigger, use_trigger, team_wh, enemy_wh, radar_hack, bunny_hop, process, game;
 };
 
 struct hacks_state {
@@ -22,6 +22,7 @@ struct hacks_state {
     bool team_wh = false;
     bool enemy_wh = false;
     bool radar_hack = false;
+    bool bunny_hop = false;
 };
 
 int main(int argc, char** argv) {
@@ -41,7 +42,7 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v0.03 [18 Nov, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v0.04 [19 Nov, 2020]" << endl << endl;
     cout << "There are still a lot of things to do, including advanced protection against VAC,\n  code optimisation, etc." << endl;
     cout << "To minimise the risks of getting banned I recommend you at least change the name of\n  the .exe file of this cheat, as well as its MD5 hash, before you use it in the game." << endl;
     cout << "In case of any bugs and glitches, feel free to notify me about them." << endl << endl;
@@ -59,6 +60,10 @@ int main(int argc, char** argv) {
     io.write_str("NO", FOREGROUND_RED);
 
     cout << "\n\nCheat functions:";
+    cout << "\n  Bunny hop (F1): ";
+    coords.bunny_hop = io.get_cursor_position();
+    io.write_str("OFF", FOREGROUND_RED);
+
     cout << "\n  No flashbang (F3): ";
     coords.no_flash = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);
@@ -83,6 +88,9 @@ int main(int argc, char** argv) {
     coords.radar_hack = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);
 
+    cout << "\n  Panic mode (ESC): ";
+    io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
+
     while (true) {
         while (mem.tProcess != NULL && mem.clientBaseAddr != NULL && mem.engineBaseAddr != NULL) {
             if (!pHandle) {
@@ -97,13 +105,13 @@ int main(int argc, char** argv) {
                     io.set_cursor_position(coords.game);
                     io.write_str("YES", FOREGROUND_GREEN, true);
                     client.update_gamemode();
+                    hacks.init();
                 }
-
-                // hacks.test_hacks();
 
                 { // Trigger bot - LAlt, F6
                     bool f6 = GetKeyState(VK_F6) & 1;
                     bool lalt = GetAsyncKeyState(VK_LMENU);
+                    bool l_mouse = GetAsyncKeyState(VK_LBUTTON);
 
                     if (f6 != state.activate_trigger ) {
                         state.activate_trigger = f6;
@@ -111,7 +119,7 @@ int main(int argc, char** argv) {
                         io.write_str(f6 ? "ON" : "OFF", f6 ? FOREGROUND_GREEN : FOREGROUND_RED, true);
                     }
 
-                    if (state.activate_trigger && lalt) hacks.trigger_bot(client.is_dangerzone());
+                    if (state.activate_trigger && lalt && !l_mouse) hacks.trigger_bot(client.is_dangerzone());
                 }
 
                 { // Glow ESP - F7, F8; Radar hack - F9
@@ -151,6 +159,24 @@ int main(int argc, char** argv) {
 
                     if (state.no_flash) hacks.no_flash();
                 }
+
+                {
+                    bool f1 = GetKeyState(VK_F1) & 1; // Bunny hop - F1
+                    bool space = GetAsyncKeyState(VK_SPACE);
+
+                    if (f1 != state.bunny_hop) {
+                        state.bunny_hop = f1;
+                        io.set_cursor_position(coords.bunny_hop);
+                        io.write_str(f1 ? "ON" : "OFF", f1 ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                    }
+
+                    if (state.bunny_hop && space) hacks.bunny_hop();
+                }
+
+                {
+                    bool end = GetKeyState(VK_END) & 1; // Panic mode
+                    if (end) ExitProcess(EXIT_SUCCESS);
+                }
                 Sleep(2);
             }
 
@@ -164,7 +190,7 @@ int main(int argc, char** argv) {
         io.set_cursor_position(coords.process);
         io.write_str("CONNECTING", FOREGROUND_GREEN | FOREGROUND_RED, true);
         ++connect_count;
-        Sleep(10000);
+        Sleep(5000);
         if (connect_count >= 2) {
             connect_count = 0;
             mem.~Memory();
