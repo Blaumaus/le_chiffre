@@ -28,6 +28,7 @@ class Hacks {
 private:
 	Memory* memory;
 	Client* client;
+	PlayerEntity player;
 
 	// true if aiming on enemy, false otherwise
 	bool _aim_on_enemy(PlayerEntity* player, bool dangerzone = false) {
@@ -36,7 +37,7 @@ private:
 		DWORD crosshair = player->get_crosshair_id();
 		if (crosshair == 0 || crosshair > 65) return false;
 
-		PlayerEntity enemy(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + 0x10 * (crosshair - 1)));
+		PlayerEntity enemy(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (crosshair - 1) * 0x10));
 		if (!enemy.valid_player()) return false;
 
 		// check if crosshair if pointed on enemy player
@@ -65,31 +66,26 @@ private:
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
 	}
 public:
-	void trigger_bot(bool dangerzone = false) {
-		PlayerEntity player = client->get_local_player();
+	void init() {
+		player = client->get_local_player();
+	}
 
-		if (_aim_on_enemy(&player, dangerzone)) {
-			player.set_attack_state(5);
-			// 25-30ms
-			Sleep((rand() % 6) + 25); // https://www.cplusplus.com/forum/beginner/183358/
-			player.set_attack_state(4);
-		} else player.set_attack_state(4);
+	void trigger_bot(bool dangerzone = false) {
+		if (_aim_on_enemy(&player, dangerzone)) player.set_attack_state(6);
 	}
 
 	void no_flash() {
-		PlayerEntity player = client->get_local_player();
 		if (player.valid_player() && player.get_flash_duration() > 0.f) player.set_flash_duration(0.f);
 	}
 
 	void glow_esp_radar(bool glow_on_teammate, bool glow_on_enemy, bool radar_hack, bool dangerzone = false) {
-		PlayerEntity player = client->get_local_player();
 		DWORD glow_obj;
 		int player_team = player.get_team();
 
 		if (glow_on_teammate || glow_on_enemy) glow_obj = memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwGlowObjectManager);
 
 		for (short i = 0; i < 64; ++i) {
-			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + 0x10 * i));
+			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
 
 			if (target.valid_player()) {
 				if (dangerzone && glow_on_enemy) { // TODO: Add team glow for teammates dangerzone mode
@@ -109,13 +105,14 @@ public:
 		Sleep(5);
 	}
 
-	void test_hacks() {
-		
+	void bunny_hop() {
+		if (player.get_flags() & 1 << 0 && player.is_moving()) player.set_jump_state(6);
 	}
 
 	Hacks(Memory* memory, Client* client) {
 		this->memory = memory;
 		this->client = client;
+		init();
 	}
 };
 #endif
