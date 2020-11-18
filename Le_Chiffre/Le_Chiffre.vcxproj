@@ -92,7 +92,6 @@
       <ConformanceMode>true</ConformanceMode>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
-      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +125,6 @@
       <ConformanceMode>true</ConformanceMode>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
-      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="antiVAC.hpp" />
     <ClInclude Include="config.hpp" />
+    <ClInclude Include="console_io.hpp" />
     <ClInclude Include="hacks.hpp" />
     <ClInclude Include="memory.hpp" />
     <ClInclude Include="player_entity.hpp" />

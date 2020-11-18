@@ -41,5 +41,8 @@
     <ClInclude Include="antiVAC.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="console_io.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
