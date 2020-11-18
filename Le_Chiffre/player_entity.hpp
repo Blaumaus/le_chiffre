@@ -26,7 +26,7 @@ public:
 	}
 
 	bool valid_player() {
-		if (!memory) return false;
+		if (!memory || !playerBaseAddr) return false;
 
 		DWORD health = this->get_health();
 		return (health > 0 && health <= 100) && !get_dormant();
@@ -75,5 +75,10 @@ public:
 	DWORD get_base_addr() {
 		return this->playerBaseAddr;
 	}
+
+	bool c4_owner() {
+		return memory->read_mem<bool>(memory->clientBaseAddr + signatures::is_c4_owner);
+	}
+
 };
 #endif
