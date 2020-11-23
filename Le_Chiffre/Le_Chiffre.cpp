@@ -5,8 +5,8 @@
 #include "signatures.hpp"
 #include "client.hpp"
 #include "hacks.hpp"
-#include "antiVAC.hpp"
-#include "console_io.hpp"
+#include "antiAC.hpp"
+#include "console_io.hpp" 
 
 using std::cout;
 using std::endl;
@@ -28,8 +28,7 @@ struct hacks_state {
 int main(int argc, char** argv) {
     ConsoleIO io;
 
-    AntiVAC ac;
-    ac.erase_pe_headers();
+    AntiAC ac;
     srand((unsigned int)time(NULL));
 
     Memory mem;
@@ -42,11 +41,8 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v0.04 [19 Nov, 2020]" << endl << endl;
-    cout << "There are still a lot of things to do, including advanced protection against VAC,\n  code optimisation, etc." << endl;
-    cout << "To minimise the risks of getting banned I recommend you at least change the name of\n  the .exe file of this cheat, as well as its MD5 hash, before you use it in the game." << endl;
-    cout << "In case of any bugs and glitches, feel free to notify me about them." << endl << endl;
-
+    cout << "Le Chiffre hacks v0.04 [24 Nov, 2020]" << endl << endl;
+    cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "You can support my work by donating me a bit:\n  https://donationalerts.com/r/fuckblm" << endl << endl;
 
     // TODO: Refactor
@@ -88,11 +84,15 @@ int main(int argc, char** argv) {
     coords.radar_hack = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);
 
-    cout << "\n  Panic mode (ESC): ";
+    cout << "\n  Panic mode (END): ";
     io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
 
     while (true) {
+        ac.check_for_debug();
+
         while (mem.tProcess != NULL && mem.clientBaseAddr != NULL && mem.engineBaseAddr != NULL) {
+            ac.check_for_debug();
+
             if (!pHandle) {
                 pHandle = true;
                 io.set_cursor_position(coords.process);
@@ -173,10 +173,7 @@ int main(int argc, char** argv) {
                     if (state.bunny_hop && space) hacks.bunny_hop();
                 }
 
-                {
-                    bool end = GetKeyState(VK_END) & 1; // Panic mode
-                    if (end) ExitProcess(EXIT_SUCCESS);
-                }
+                hacks.panic_mode(); // closes cheat if triggered
                 Sleep(2);
             }
 
