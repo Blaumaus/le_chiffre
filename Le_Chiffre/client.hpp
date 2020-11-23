@@ -23,8 +23,10 @@ public:
 		_survivalDecisionTypes = 0;
 	}
 
+	
+	// Client states: LOBBY = 1, LOADING = 2, CONNECTING = 3, CONNECTED = 5, INGAME = 6
 	bool in_game() {
-		return memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_State) == INGAME;
+		return memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_State) == 6;
 	}
 
 	bool is_dangerzone() {
