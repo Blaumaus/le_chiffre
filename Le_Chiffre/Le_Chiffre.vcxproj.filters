@@ -38,10 +38,10 @@
     <ClInclude Include="player_entity.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="antiVAC.hpp">
+    <ClInclude Include="console_io.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="console_io.hpp">
+    <ClInclude Include="antiAC.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
