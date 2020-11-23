@@ -35,7 +35,7 @@ private:
 		if (!player->valid_player()) return false;
 
 		DWORD crosshair = player->get_crosshair_id();
-		if (crosshair == 0 || crosshair > 65) return false;
+		if (crosshair == 0 || crosshair > 33) return false;
 
 		PlayerEntity enemy(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (crosshair - 1) * 0x10));
 		if (!enemy.valid_player()) return false;
@@ -84,7 +84,7 @@ public:
 
 		if (glow_on_teammate || glow_on_enemy) glow_obj = memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwGlowObjectManager);
 
-		for (short i = 0; i < 64; ++i) {
+		for (short i = 0; i < 32; ++i) {
 			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
 
 			if (target.valid_player()) {
@@ -107,6 +107,11 @@ public:
 
 	void bunny_hop() {
 		if (player.get_flags() & 1 << 0 && player.is_moving()) player.set_jump_state(6);
+	}
+
+	void panic_mode() { // closes cheat when triggered
+		bool end = GetKeyState(VK_END) & 1;
+		if (end) ExitProcess(EXIT_SUCCESS);
 	}
 
 	Hacks(Memory* memory, Client* client) {
