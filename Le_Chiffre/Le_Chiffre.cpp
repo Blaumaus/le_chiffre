@@ -12,7 +12,7 @@ using std::cout;
 using std::endl;
 
 struct hacks_coords {
-    COORD no_flash, activate_trigger, use_trigger, team_wh, enemy_wh, radar_hack, bunny_hop, process, game;
+    COORD no_flash, activate_trigger, use_trigger, team_wh, enemy_wh, radar_hack, bunny_hop, aimbot, process, game;
 };
 
 struct hacks_state {
@@ -23,6 +23,7 @@ struct hacks_state {
     bool enemy_wh = false;
     bool radar_hack = false;
     bool bunny_hop = false;
+    bool aimbot = false;
 };
 
 int main(int argc, char** argv) {
@@ -41,7 +42,7 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v0.04 [24 Nov, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v0.05 [24 Nov, 2020]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "You can support my work by donating me a bit:\n  https://donationalerts.com/r/fuckblm" << endl << endl;
 
@@ -58,6 +59,10 @@ int main(int argc, char** argv) {
     cout << "\n\nCheat functions:";
     cout << "\n  Bunny hop (F1): ";
     coords.bunny_hop = io.get_cursor_position();
+    io.write_str("OFF", FOREGROUND_RED);
+
+    cout << "\n  Aimbot (F2): ";
+    coords.aimbot = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);
 
     cout << "\n  No flashbang (F3): ";
@@ -120,6 +125,18 @@ int main(int argc, char** argv) {
                     }
 
                     if (state.activate_trigger && lalt && !l_mouse) hacks.trigger_bot(client.is_dangerzone());
+                }
+
+                {
+                    bool f2 = GetKeyState(VK_F2) & 1; // Aimbot - F2
+
+                    if (f2 != state.aimbot) {
+                        state.aimbot = f2;
+                        io.set_cursor_position(coords.aimbot);
+                        io.write_str(f2 ? "ON" : "OFF", f2 ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                    }
+
+                    if (state.aimbot) hacks.aim_bot();
                 }
 
                 { // Glow ESP - F7, F8; Radar hack - F9
