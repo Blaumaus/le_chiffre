@@ -6,8 +6,6 @@
 #include "memory.hpp"
 #include "player_entity.hpp"
 
-#include <iostream>
-
 using namespace hazedumper;
 
 struct GlowStruct {
@@ -65,6 +63,30 @@ private:
 		gt.render_unoccluded = false;
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
 	}
+
+	// returns an entity which is closest to local player on XYZ axis coordinates
+	// if no players are located near local player, it will return an invalid PlayerEntity object
+	PlayerEntity _get_closest_enemy() {
+		float closest_distance = 10000000; // initial closest distance between local player and an enemy
+		PlayerEntity closest_enemy;
+		int player_team = player.get_team();
+
+		for (short i = 0; i < 32; ++i) {
+			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
+
+			if (target.valid_player() && target.get_team() != player_team) {
+				float distance = player.get_distance(target.get_origin());
+				if (distance < closest_distance) {
+					closest_distance = distance;
+					closest_enemy = target;
+				}
+				
+			}
+		}
+
+		return closest_enemy;
+	}
+
 public:
 	void init() {
 		player = client->get_local_player();
@@ -98,11 +120,17 @@ public:
 				if (player_team == target_team && glow_on_teammate) _team_glow(&target, glow_obj);
 				else if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
 				
-				if (player_team != target_team && radar_hack) target.set_spotted(true);
+				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);
 			}
 		}
 
 		Sleep(5);
+	}
+
+	void aim_bot() {
+		PlayerEntity target = _get_closest_enemy();
+
+		if (target.valid_player()) player.aim_at(target.get_bone_position(8));
 	}
 
 	void bunny_hop() {
