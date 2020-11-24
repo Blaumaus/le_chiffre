@@ -42,6 +42,14 @@ public:
 		DWORD player_id = memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_GetLocalPlayer);
 		return PlayerEntity(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + player_id * 0x10));
 	}
+
+	/*coords_vector get_view_angles() {
+		return memory->read_mem<coords_vector>(_getClientState() + signatures::dwClientState_ViewAngles);
+	}
+
+	void set_view_angles(coords_vector val) {
+		memory->write_mem<coords_vector>(_getClientState() + signatures::dwClientState_ViewAngles, val);
+	}*/
 };
 
 #endif
