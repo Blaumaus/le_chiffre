@@ -36,7 +36,7 @@ public:
         console_window = GetConsoleWindow();
         screen_buffer = GetStdHandle(STD_OUTPUT_HANDLE);
         screen_width = 75;
-        screen_height = 21;
+        screen_height = 22;
 
         SetWindowLong(console_window, GWL_STYLE, GetWindowLong(console_window, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
         _set_window();
