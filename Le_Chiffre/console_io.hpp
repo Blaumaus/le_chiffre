@@ -17,7 +17,7 @@ private:
     void _set_window() { // https://stackoverflow.com/a/40634467
         COORD const size = { screen_width, screen_height };
 
-        SMALL_RECT const minimal_window = { 0, 0, 1, 1 };
+        SMALL_RECT const minimal_window = { 0, 0, 1, 1 }; // to get rid of scroll bars
         SetConsoleWindowInfo(screen_buffer, TRUE, &minimal_window);
 
         SetConsoleScreenBufferSize(screen_buffer, size);

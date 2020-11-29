@@ -21,6 +21,9 @@
     <ClCompile Include="client.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="overlay\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="signatures.hpp">
@@ -43,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="antiAC.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="overlay\overlay.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="overlay\paint.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
