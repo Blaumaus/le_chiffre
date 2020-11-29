@@ -7,6 +7,7 @@
 #include "hacks.hpp"
 #include "antiAC.hpp"
 #include "console_io.hpp" 
+#include "overlay/overlay.hpp"
 
 using std::cout;
 using std::endl;
@@ -35,6 +36,8 @@ int main(int argc, char** argv) {
     Memory mem;
     Client client(&mem);
     Hacks hacks(&mem, &client);
+    Overlay ol(&mem);
+    HANDLE overlay = CreateThread(NULL, NULL, &ol.static_start, (void*)&ol, NULL, NULL); // run overlay thread asynchronously
 
     hacks_coords coords;
     hacks_state state;
@@ -137,6 +140,7 @@ int main(int argc, char** argv) {
                     }
 
                     if (state.aimbot) hacks.aim_bot();
+                    else client.reset_sensitivity();
                 }
 
                 { // Glow ESP - F7, F8; Radar hack - F9
@@ -189,7 +193,8 @@ int main(int argc, char** argv) {
 
                     if (state.bunny_hop && space) hacks.bunny_hop();
                 }
-
+                
+                SendMessage(ol.hwnd, WM_PAINT, NULL, NULL);
                 hacks.panic_mode(); // closes cheat if triggered
                 Sleep(2);
             }
@@ -210,10 +215,16 @@ int main(int argc, char** argv) {
             mem.~Memory();
             client.~Client();
             hacks.~Hacks();
+            ol.~Overlay();
 
             new(&mem) Memory();
             new(&client) Client(&mem);
             new(&hacks) Hacks(&mem, &client);
+            new(&ol) Overlay(&mem);
+
+            TerminateThread(overlay, EXIT_SUCCESS);
+            CloseHandle(overlay);
+            overlay = CreateThread(NULL, NULL, &ol.static_start, (void*)&ol, NULL, NULL);
         }
     }
 
