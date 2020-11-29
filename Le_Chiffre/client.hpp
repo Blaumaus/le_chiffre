@@ -13,6 +13,7 @@ class Client {
 private:
 	Memory* memory;
 	DWORD _survivalDecisionTypes;
+	float def_sensinivity; // used for aimbot
 
 	DWORD _getClientState() {
 		return memory->read_mem<DWORD>(memory->engineBaseAddr + signatures::dwClientState);
@@ -21,9 +22,9 @@ public:
 	Client(Memory* memory) {
 		this->memory = memory;
 		_survivalDecisionTypes = 0;
+		this->def_sensinivity = get_sensitivity();
 	}
 
-	
 	// Client states: LOBBY = 1, LOADING = 2, CONNECTING = 3, CONNECTED = 5, INGAME = 6
 	bool in_game() {
 		return memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_State) == 6;
@@ -43,13 +44,25 @@ public:
 		return PlayerEntity(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + player_id * 0x10));
 	}
 
-	/*coords_vector get_view_angles() {
-		return memory->read_mem<coords_vector>(_getClientState() + signatures::dwClientState_ViewAngles);
+	void set_sensitivity(float val) {
+		uint32_t sens_pt = memory->read_mem<uint32_t>(memory->clientBaseAddr + signatures::dwSensitivityPtr);
+		uint32_t sest_fn = *reinterpret_cast<uint32_t*>(&val) ^ sens_pt;
+
+		memory->write_mem<uint32_t>(memory->clientBaseAddr + signatures::dwSensitivity, sest_fn);
 	}
 
-	void set_view_angles(coords_vector val) {
-		memory->write_mem<coords_vector>(_getClientState() + signatures::dwClientState_ViewAngles, val);
-	}*/
+	float get_sensitivity() {
+		uint32_t sens_pt = memory->read_mem<uint32_t>(memory->clientBaseAddr + signatures::dwSensitivityPtr);
+		uint32_t sens_fn = memory->read_mem<uint32_t>(memory->clientBaseAddr + signatures::dwSensitivity);
+
+		sens_fn ^= sens_pt;
+
+		return *reinterpret_cast<float*>(&sens_fn);
+	}
+
+	void reset_sensitivity() {
+		set_sensitivity(this->def_sensinivity);
+	}
 };
 
 #endif
