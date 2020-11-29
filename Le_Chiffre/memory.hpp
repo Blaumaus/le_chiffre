@@ -9,13 +9,12 @@
 #include "config.hpp"
 
 class Memory {
-private:
-	DWORD tPID;
-
 public:
+	DWORD tPID;
 	DWORD clientBaseAddr;
 	DWORD engineBaseAddr;
 	HANDLE tProcess;
+	HWND tHWND;
 
 	Memory() {
 		this->tPID = NULL;
@@ -23,6 +22,7 @@ public:
 
 		if (!this->handle_process(TARGET)) return;
 
+		this->tHWND = FindWindowA(0, WINDOW_NAME);
 		this->clientBaseAddr = get_module(CLIENT_DLL);
 		this->engineBaseAddr = get_module(ENGINE_DLL);
 	}
