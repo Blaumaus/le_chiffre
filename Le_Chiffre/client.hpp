@@ -14,6 +14,8 @@ private:
 	Memory* memory;
 	DWORD _survivalDecisionTypes;
 	float def_sensinivity; // used for aimbot
+	std::array<char, 0x120> map_dir;
+	std::array<char, 0x120> game_dir;
 
 	DWORD _getClientState() {
 		return memory->read_mem<DWORD>(memory->engineBaseAddr + signatures::dwClientState);
@@ -62,6 +64,16 @@ public:
 
 	void reset_sensitivity() {
 		set_sensitivity(this->def_sensinivity);
+	}
+
+	const char* get_map_dir() {
+		map_dir = memory->read_mem<std::array<char, 0x120>>(_getClientState() + signatures::dwClientState_MapDirectory);
+		return map_dir.data();
+	}
+
+	const char* get_game_dir() {
+		game_dir = memory->read_mem<std::array<char, 0x120>>(memory->engineBaseAddr + signatures::dwGameDir);
+		return game_dir.data();
 	}
 };
 
