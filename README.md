@@ -4,7 +4,7 @@
 Le Chiffre - is an external feature-rich hack.\
 Since it is a public cheat, I recommend changing the filename (as well as it's hash) of the executable file after compilation to minimise the VAC ban risks.\
 Also it might be useful to add some junk code before compilation.\
-You have to use at least C++17 standard (due to bsp_parser library requirements) to compile the cheat.\
+You have to use at least C++17 standard (due to bsp_parser library requirements) to compile the cheat.
 
 ## Cheat functions
 - F2 - Bunnyhop
