@@ -16,10 +16,8 @@ Paint paint; // draw, write text or do other manipulations with the overlay
 class Overlay {
 private:
 	WCHAR _title[20] = L"test"; // overlay window title
-	HINSTANCE hwnd_inst;
     Memory* mem;
     RECT rect; // coordinates of target window
-    MARGINS _margins = { -1, -1, -1, -1 };
 
     // registers window class
     ATOM _register_ñlass() {
@@ -31,9 +29,9 @@ private:
         wc.lpfnWndProc = WndProc;
         wc.cbClsExtra = NULL;
         wc.cbWndExtra = NULL;
-        wc.hInstance = hwnd_inst; // reinterpret_cast<HINSTANCE>(GetWindowLongW(mem->tHWND, GWL_HINSTANCE));
+        wc.hInstance = GetModuleHandle(NULL);
         wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+        wc.hCursor = LoadCursor(NULL, IDC_ARROW);
         wc.hbrBackground = WHITE_BRUSH;
         wc.lpszMenuName = NULL;
         wc.lpszClassName = _title;
@@ -44,15 +42,16 @@ private:
 
     // initialise overlay instance
     bool _init_instance(int width, int height) {
-        hwnd = CreateWindowEx(WS_EX_TOPMOST /*| WS_EX_COMPOSITED*/ | WS_EX_TRANSPARENT | WS_EX_LAYERED, _title, _title, WS_POPUP, rect.left, rect.top, width, height, nullptr, nullptr, hwnd_inst, nullptr);
+        hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_LAYERED, _title, _title, WS_POPUP, rect.left, rect.top, width, height, 0, 0, 0, 0);
         if (!hwnd) return false;
 
         SetLayeredWindowAttributes(hwnd, 0, 1.0f, LWA_ALPHA);
         SetLayeredWindowAttributes(hwnd, 0, RGB(0, 0, 0), LWA_COLORKEY);
-        DwmExtendFrameIntoClientArea(hwnd, &_margins);
-        ShowWindow(hwnd, SW_SHOW);
-        UpdateWindow(hwnd);
 
+        MARGINS _margins = { -1, -1, width, height };
+        DwmExtendFrameIntoClientArea(hwnd, &_margins);
+
+        ShowWindow(hwnd, SW_SHOW);
         return true;
     }
 
