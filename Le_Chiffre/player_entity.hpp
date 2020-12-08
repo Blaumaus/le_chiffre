@@ -11,8 +11,10 @@
 #include "signatures.hpp"
 #include "config.hpp"
 #include "client.hpp"
+#include "bsp_parser/valve-bsp-parser/core/matrix.hpp"
 
 using namespace hazedumper;
+using namespace rn;
 
 struct BoneMatrix {
 	BYTE _junk1[0xC];
@@ -168,6 +170,20 @@ public:
 		DWORD bone_matrix = memory->read_mem<DWORD>(playerBaseAddr + netvars::m_dwBoneMatrix);
 		BoneMatrix bone = memory->read_mem<BoneMatrix>(bone_matrix + bone_id * 0x30);
 		return coords_vector({ bone.x, bone.y, bone.z });
+	}
+
+	// returns rn::vector3 bone position. needed for bsp parser
+	inline vector3 get_bone_position_v3(int bone_id) {
+		coords_vector cv = get_bone_position(bone_id);
+		const std::array<float, 3U> vec = { cv.x, cv.y, cv.z };
+		return vector3(vec);
+	}
+
+	// returns rn::vector3 view offset. needed for bsp parser
+	inline vector3 get_view_offset_v3() {
+		coords_vector cv = get_view_offset();
+		const std::array<float, 3U> vec = { cv.x, cv.y, cv.z };
+		return vector3(vec);
 	}
 
 	// returns the distance between 2 player's entities (XYZ points)
