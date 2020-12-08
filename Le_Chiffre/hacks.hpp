@@ -5,8 +5,11 @@
 #include "client.hpp"
 #include "memory.hpp"
 #include "player_entity.hpp"
+#include "bsp_parser/valve-bsp-parser/bsp_parser.hpp"
+#include "bsp_parser/valve-bsp-parser/core/matrix.hpp"
 
 using namespace hazedumper;
+using namespace rn;
 
 struct GlowStruct {
 	BYTE base[4];
@@ -27,6 +30,7 @@ private:
 	Memory* memory;
 	Client* client;
 	PlayerEntity player;
+	bsp_parser bp;
 
 	// true if aiming on enemy, false otherwise
 	bool _aim_on_enemy(PlayerEntity* player, bool dangerzone = false) {
@@ -64,32 +68,43 @@ private:
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
 	}
 
-	// returns an entity which is closest to local player on XYZ axis coordinates
+	// returns an entity which is visible and closest to local player on XYZ axis coordinates
 	// if no players are located near local player, it will return an invalid PlayerEntity object
-	PlayerEntity _get_closest_enemy() {
+	PlayerEntity _get_closest_enemy(int bone_id = 8) {
 		float closest_distance = 10000000; // initial closest distance between local player and an enemy
 		PlayerEntity closest_enemy;
 		int player_team = player.get_team();
+		vector3 player_coords = player.get_bone_position_v3(8);
 
 		for (short i = 0; i < 32; ++i) {
 			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
 
 			if (target.valid_player() && target.get_team() != player_team) {
-				float distance = player.get_distance(target.get_origin());
-				if (distance < closest_distance) {
-					closest_distance = distance;
-					closest_enemy = target;
+				vector3 target_head = target.get_bone_position_v3(bone_id);
+
+				if (is_visible(player_coords, target_head)) {
+					float distance = player.get_distance(target.get_origin());
+					if (distance < closest_distance) {
+						closest_distance = distance;
+						closest_enemy = target;
+					}
 				}
-				
 			}
 		}
 
 		return closest_enemy;
 	}
 
+	bool is_visible(vector3& origin, vector3& destinaiton) {
+		return bsp_setted && bp.is_visible(origin, destinaiton);
+	}
+
 public:
+	bool bsp_setted;
+
 	void init() {
 		player = client->get_local_player();
+		if (bp.load_map(client->get_game_dir(), client->get_map_dir())) bsp_setted = true;
 	}
 
 	void trigger_bot(bool dangerzone = false) {
@@ -148,6 +163,7 @@ public:
 	Hacks(Memory* memory, Client* client) {
 		this->memory = memory;
 		this->client = client;
+		bsp_setted = false;
 		init();
 	}
 };
