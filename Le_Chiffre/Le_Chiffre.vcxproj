@@ -96,6 +96,14 @@
       <ConformanceMode>true</ConformanceMode>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>-DNOMINMAX %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <OmitFramePointers>true</OmitFramePointers>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +137,12 @@
       <ConformanceMode>true</ConformanceMode>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>-DNOMINMAX %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,12 +171,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bsp_parser\bsp_parser.cpp" />
     <ClCompile Include="client.hpp" />
     <ClCompile Include="Le_Chiffre.cpp" />
     <ClCompile Include="overlay\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="antiAC.hpp" />
+    <ClInclude Include="bsp_parser\valve-bsp-parser\bsp_parser.hpp" />
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\matrix.hpp" />
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\requirements.hpp" />
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\valve_structs.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="console_io.hpp" />
     <ClInclude Include="hacks.hpp" />

@@ -24,6 +24,9 @@
     <ClCompile Include="overlay\Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bsp_parser\bsp_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="signatures.hpp">
@@ -51,6 +54,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="overlay\paint.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsp_parser\valve-bsp-parser\bsp_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\valve_structs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\matrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsp_parser\valve-bsp-parser\core\requirements.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
