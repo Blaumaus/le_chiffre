@@ -1,10 +1,10 @@
 **Le Chiffre - is a lightweight CS:GO external cheat, which supports lots of features.**
 
 ## About
-Le Chiffre - is an external feature-rich hack. 
-Since it is a public cheat, I recommend changing the filename (as well as it's hash) of the executable file after compilation to minimise the VAC ban risks.
-Also it might be useful to add some junk code before compilation.
-You have to use at least C++17 standard (due to bsp_parser library requirements) to compile the cheat.
+Le Chiffre - is an external feature-rich hack.\
+Since it is a public cheat, I recommend changing the filename (as well as it's hash) of the executable file after compilation to minimise the VAC ban risks.\
+Also it might be useful to add some junk code before compilation.\
+You have to use at least C++17 standard (due to bsp_parser library requirements) to compile the cheat.\
 
 ## Cheat functions
 - F2 - Bunnyhop
@@ -25,5 +25,5 @@ You have to use at least C++17 standard (due to bsp_parser library requirements)
 - CS:GO offsets autoparser.
 
 ## Credits
-Thanks to [hazedumper](https://github.com/frk1/hazedumper "hazedumper") library for providing memory offsets.
+Thanks to [hazedumper](https://github.com/frk1/hazedumper "hazedumper") library for providing memory offsets.\
 Thanks to [bsp_parser](https://github.com/ReactiioN1337/valve-bsp-parser "bsp_parser") library for making the aimbot even better.
