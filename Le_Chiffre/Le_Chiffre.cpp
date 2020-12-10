@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v0.08 [8 Dec, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v0.09 [10 Dec, 2020]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "You can support my work by donating me a bit:\n  https://donationalerts.com/r/fuckblm" << endl << endl;
 
