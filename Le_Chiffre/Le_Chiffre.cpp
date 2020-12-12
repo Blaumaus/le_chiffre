@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v0.09 [10 Dec, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v1.00 [12 Dec, 2020]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "You can support my work by donating me a bit:\n  https://donationalerts.com/r/fuckblm" << endl << endl;
 
@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
                 }
 
                 { // Trigger bot - LAlt, F6
-                    bool f6 = GetKeyState(VK_F6) & 1;
+                    bool f6 = GetKeyState(VK_F6) & 0x0001;
                     bool lalt = GetAsyncKeyState(VK_LMENU);
                     bool l_mouse = GetAsyncKeyState(VK_LBUTTON);
 
@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
                 }
 
                 {
-                    bool f4 = GetKeyState(VK_F4) & 1; // Aimbot - F4
+                    bool f4 = GetKeyState(VK_F4) & 0x0001; // Aimbot - F4
 
                     if (f4 != state.aimbot) {
                         state.aimbot = f4;
@@ -147,8 +147,8 @@ int main(int argc, char** argv) {
 
                 { // Glow ESP - F7, F8; Radar hack - F9
                     // bool f7 = GetKeyState(VK_F7) & 1; // Teammate glow ESP
-                    bool f8 = GetKeyState(VK_F8) & 1; // Enemy glow ESP
-                    bool f9 = GetKeyState(VK_F9) & 1; // Radar hack
+                    bool f8 = GetKeyState(VK_F8) & 0x0001; // Enemy glow ESP
+                    bool f9 = GetKeyState(VK_F9) & 0x0001; // Radar hack
 
                     /*if (f7 != state.team_wh) {
                         state.team_wh = f7;
@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
                 }
 
                 {
-                    bool f3 = GetKeyState(VK_F3) & 1; // No flash - F3
+                    bool f3 = GetKeyState(VK_F3) & 0x0001; // No flash - F3
 
                     if (f3 != state.no_flash) {
                         state.no_flash = f3;
@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
                 }
 
                 {
-                    bool f2 = GetKeyState(VK_F2) & 1; // Bunny hop - F2
+                    bool f2 = GetKeyState(VK_F2) & 0x0001; // Bunny hop - F2
                     bool space = GetAsyncKeyState(VK_SPACE);
 
                     if (f2 != state.bunny_hop) {

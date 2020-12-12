@@ -156,8 +156,7 @@ public:
 	}
 
 	void panic_mode() { // closes cheat when triggered
-		bool end = GetKeyState(VK_END) & 1;
-		if (end) ExitProcess(EXIT_SUCCESS);
+		if (GetKeyState(VK_END) & 0x0001) ExitProcess(EXIT_SUCCESS);
 	}
 
 	Hacks(Memory* memory, Client* client) {
