@@ -6,6 +6,8 @@ Since it is a public cheat, I recommend changing the filename (as well as it's h
 Also it might be useful to add some junk code before compilation.\
 You have to use at least C++17 standard (due to bsp_parser library requirements) to compile the cheat.
 
+![](images/lechiffre_screenshot.png)
+
 ## Cheat functions
 - F2 - Bunnyhop
 - F3 - No flashbang
