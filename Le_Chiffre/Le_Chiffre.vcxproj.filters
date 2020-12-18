@@ -21,9 +21,6 @@
     <ClCompile Include="client.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="overlay\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="bsp_parser\bsp_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -174,7 +174,6 @@
     <ClCompile Include="bsp_parser\bsp_parser.cpp" />
     <ClCompile Include="client.hpp" />
     <ClCompile Include="Le_Chiffre.cpp" />
-    <ClCompile Include="overlay\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="antiAC.hpp" />

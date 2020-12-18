@@ -47,9 +47,10 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v1.00 [12 Dec, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v1.01 [18 Dec, 2020]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
-    cout << "You can support my work by donating me a bit:\n  https://donationalerts.com/r/fuckblm" << endl << endl;
+    cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
+    cout << "The source code: https://github.com/Blaumaus/le_chiffre" << endl << endl;
 
     // TODO: Refactor
     cout << "State:";
