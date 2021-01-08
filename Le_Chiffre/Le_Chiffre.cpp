@@ -47,7 +47,7 @@ int main() {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v1.02 [8 Jan, 2020]" << endl << endl;
+    cout << "Le Chiffre v1.02 [8 Jan, 2021]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
     cout << "The source code: https://github.com/Blaumaus/le_chiffre" << endl << endl;
