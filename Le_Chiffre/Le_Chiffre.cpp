@@ -13,21 +13,21 @@ using std::cout;
 using std::endl;
 
 struct hacks_coords {
-    COORD no_flash, activate_trigger, use_trigger, team_wh, enemy_wh, radar_hack, bunny_hop, aimbot, process, game;
+    COORD no_flash, activate_trigger, use_trigger, /*team_wh,*/ enemy_wh, radar_hack, bunny_hop, aimbot, process, game;
 };
 
 struct hacks_state {
     bool no_flash = false;
     bool activate_trigger = false;
     bool use_trigger = false;
-    bool team_wh = false;
+    // bool team_wh = false;
     bool enemy_wh = false;
     bool radar_hack = false;
     bool bunny_hop = false;
     bool aimbot = false;
 };
 
-int main(int argc, char** argv) {
+int main() {
     ConsoleIO io;
 
     AntiAC ac;
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre hacks v1.01 [18 Dec, 2020]" << endl << endl;
+    cout << "Le Chiffre hacks v1.02 [8 Jan, 2020]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
     cout << "The source code: https://github.com/Blaumaus/le_chiffre" << endl << endl;
