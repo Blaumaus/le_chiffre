@@ -6,6 +6,11 @@ const format_date = date => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  insights.init('QZXDaLRWC1XvtWGM', { ignoreErrors: true })
+  insights.trackPages({
+    search: true
+  })
+
   const desc = document.querySelector('#description > p')
   const download = document.getElementById('download_btn')
 
@@ -16,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const date = res[0]?.published_at || 'Unknown'
       const download_url = res[0].assets[0]?.browser_download_url || 'https://github.com/Blaumaus/le_chiffre/releases'
       
-      console.log(date)
       desc.textContent = `The latest cheat version is ${version}, it has been updated on ${format_date(date)}`
       download.textContent = 'Direct download'
       download.href = download_url
