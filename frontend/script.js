@@ -6,11 +6,6 @@ const format_date = date => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  insights.init('QZXDaLRWC1XvtWGM', { ignoreErrors: true })
-  insights.trackPages({
-    search: true
-  })
-
   const desc = document.querySelector('#description > p')
   const download = document.getElementById('download_btn')
 
@@ -26,4 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
       download.href = download_url
     })
     .catch(e => console.log(e))
+
+  insights.init('QZXDaLRWC1XvtWGM', { ignoreErrors: true })
+  insights.trackPages({
+    search: true
+  })
 })
