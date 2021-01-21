@@ -5,7 +5,8 @@
 Le Chiffre - is an external feature-rich hack.\
 Since it is a public cheat, I strongly recommend reimplementing the cheat logic to make it as unique as possible, or at least changing the filename (as well as it's hash) of the executable file after compilation to minimise the VAC ban risks.\
 Also it might be useful to add some junk code in some cases (probably you'd have to turn compiler optimisations off before doing it).\
-You have to use at least the C++17 standard (due to bsp_parser library requirements) to compile the cheat.
+You have to use at least the C++17 standard (due to bsp_parser library requirements) to compile the cheat.\
+[Official website](https://lechiffre.now.sh)
 
 ![](images/lechiffre_mainmenu.png)
 
