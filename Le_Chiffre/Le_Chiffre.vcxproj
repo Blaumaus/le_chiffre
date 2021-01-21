@@ -189,6 +189,7 @@
     <ClInclude Include="overlay\paint.hpp" />
     <ClInclude Include="player_entity.hpp" />
     <ClInclude Include="signatures.hpp" />
+    <ClInclude Include="sig_scanner.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
