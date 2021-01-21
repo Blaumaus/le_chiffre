@@ -47,7 +47,7 @@ int main() {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
-    cout << "Le Chiffre v1.03 [12 Jan, 2021]" << endl << endl;
+    cout << "Le Chiffre v1.0.4 [21 Jan, 2021]" << endl << endl;
     cout << "My contact: coopertars@protonmail.ch" << endl << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
     cout << "The source code: https://github.com/Blaumaus/le_chiffre" << endl << endl;
@@ -87,7 +87,7 @@ int main() {
     coords.team_wh = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);*/
 
-    cout << "\n  Enemy glow ESP (F8): ";
+    cout << "\n  Glow ESP (F8): ";
     coords.enemy_wh = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);
 

@@ -100,7 +100,7 @@ public:
 	}
 
 	// [0, 100]
-	/* inline */DWORD get_health() {
+	inline DWORD get_health() {
 		return memory->read_mem<DWORD>(playerBaseAddr + netvars::m_iHealth);
 	}
 

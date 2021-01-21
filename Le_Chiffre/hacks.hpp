@@ -68,6 +68,17 @@ private:
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
 	}
 
+	void _carrier_glow(PlayerEntity* target, DWORD glow_obj) {
+		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
+		gt.red = .4f;
+		gt.green = .5f;
+		gt.blue = 0;
+		gt.alpha = 0.9f;
+		gt.redner_occluded = true;
+		gt.render_unoccluded = false;
+		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
+	}
+
 	// returns an entity which is visible and closest to local player on XYZ axis coordinates
 	// if no players are located near local player, it will return an invalid PlayerEntity object
 	PlayerEntity _get_closest_enemy(int bone_id = 8) {
@@ -123,7 +134,7 @@ public:
 
 		for (short i = 0; i < 32; ++i) {
 			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
-
+			
 			if (target.valid_player()) {
 				if (dangerzone && glow_on_enemy) { // TODO: Add team glow for teammates dangerzone mode
 					_enemy_glow(&target, glow_obj);
