@@ -24,7 +24,7 @@ body {
 
 #content {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 10px);
   align-items: center;
   justify-content: center;
 }
@@ -77,6 +77,5 @@ body {
 .noscript {
   color:hsl(261, 85%, 81%);
   padding-top: 10px;
-  padding-bottom: -10px;
   font-size: 19px;
 }
