@@ -9,7 +9,7 @@
 #include "memory.hpp"
 #include "client.hpp"
 #include "signatures.hpp"
-#include "config.hpp"
+#include "misc/config.hpp"
 #include "client.hpp"
 #include "bsp_parser/valve-bsp-parser/core/matrix.hpp"
 

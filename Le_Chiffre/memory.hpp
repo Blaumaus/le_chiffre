@@ -6,7 +6,7 @@
 
 #include <Windows.h>
 #include <TlHelp32.h>
-#include "config.hpp"
+#include "misc/config.hpp"
 
 class Memory {
 public:

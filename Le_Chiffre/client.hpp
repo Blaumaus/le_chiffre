@@ -5,7 +5,7 @@
 #include "memory.hpp"
 #include "signatures.hpp"
 #include "player_entity.hpp"
-#include "config.hpp"
+#include "misc/config.hpp"
 
 using namespace hazedumper;
 
