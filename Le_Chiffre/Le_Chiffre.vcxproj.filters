@@ -32,16 +32,10 @@
     <ClInclude Include="memory.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="config.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="hacks.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="player_entity.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="console_io.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="antiAC.hpp">
@@ -67,6 +61,18 @@
     </ClInclude>
     <ClInclude Include="sig_scanner.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\config.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\web_utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\console_io.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

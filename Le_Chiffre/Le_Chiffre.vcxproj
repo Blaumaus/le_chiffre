@@ -181,10 +181,12 @@
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\matrix.hpp" />
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\requirements.hpp" />
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\valve_structs.hpp" />
-    <ClInclude Include="config.hpp" />
-    <ClInclude Include="console_io.hpp" />
+    <ClInclude Include="misc\config.hpp" />
+    <ClInclude Include="misc\console_io.hpp" />
     <ClInclude Include="hacks.hpp" />
     <ClInclude Include="memory.hpp" />
+    <ClInclude Include="misc\utils.hpp" />
+    <ClInclude Include="misc\web_utils.hpp" />
     <ClInclude Include="overlay\overlay.hpp" />
     <ClInclude Include="overlay\paint.hpp" />
     <ClInclude Include="player_entity.hpp" />
