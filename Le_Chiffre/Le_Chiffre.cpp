@@ -31,6 +31,9 @@ struct hacks_state {
 int main() {
     ConsoleIO io;
 
+    cout << "Loading...";
+    std::pair<bool, bool> latest = is_latest(); // TODO: Do this in a parallel thread
+
     AntiAC ac;
     srand((unsigned int)time(NULL));
     
@@ -48,6 +51,7 @@ int main() {
     bool pHandle = false, game = false;
     int connect_count = 0;
 
+    cout << std::string(10, '\b');
     cout << "Le Chiffre v1.0.4 [21 Jan, 2021]" << endl << endl;
     cout << "The official website: https://lechiffre.now.sh" << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
@@ -64,7 +68,10 @@ int main() {
 
     cout << "\n  Version: ";
     coords.version = io.get_cursor_position();
-    io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
+    // io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
+    if (latest.first) io.write_str("ERROR", FOREGROUND_RED);
+    else if (latest.second) io.write_str("LATEST", FOREGROUND_GREEN);
+    else io.write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
 
     cout << "\n\nCheat functions:";
     cout << "\n  Bunny hop (F2): ";
@@ -101,14 +108,6 @@ int main() {
 
     cout << "\n  Panic mode (END): ";
     io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
-
-    // TODO: Do this in a parallel thread
-    std::pair<bool, bool> latest = is_latest();
-
-    io.set_cursor_position(coords.version);
-    if (latest.first) io.write_str("ERROR", FOREGROUND_RED);
-    else if (latest.second) io.write_str("LATEST", FOREGROUND_GREEN);
-    else io.write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
 
     while (true) {
         ac.check_for_debug();

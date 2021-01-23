@@ -34,7 +34,7 @@ namespace web {
 			if (hRequest) WinHttpCloseHandle(hRequest);
 			if (hConnect) WinHttpCloseHandle(hConnect);
 			WinHttpCloseHandle(hSession);
-		} else std::cout << "WinHTTP ERROR CODE: " << GetLastError();
+		} // else std::cout << "WinHTTP ERROR CODE: " << GetLastError();
 
 		return res;
 	}
