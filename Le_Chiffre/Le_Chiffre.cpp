@@ -6,14 +6,15 @@
 #include "client.hpp"
 #include "hacks.hpp"
 #include "antiAC.hpp"
-#include "console_io.hpp"
+#include "misc/console_io.hpp"
+#include "misc/utils.hpp"
 // #include "overlay/overlay.hpp"
 
 using std::cout;
 using std::endl;
 
 struct hacks_coords {
-    COORD no_flash, activate_trigger, use_trigger, /*team_wh,*/ enemy_wh, radar_hack, bunny_hop, aimbot, process, game;
+    COORD no_flash, activate_trigger, use_trigger, /*team_wh,*/ enemy_wh, radar_hack, bunny_hop, aimbot, process, game, version;
 };
 
 struct hacks_state {
@@ -48,9 +49,8 @@ int main() {
     int connect_count = 0;
 
     cout << "Le Chiffre v1.0.4 [21 Jan, 2021]" << endl << endl;
-    cout << "My contact: coopertars@protonmail.ch" << endl << endl;
+    cout << "The official website: https://lechiffre.now.sh" << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
-    cout << "The source code: https://github.com/Blaumaus/le_chiffre" << endl << endl;
 
     // TODO: Refactor
     cout << "State:";
@@ -61,6 +61,10 @@ int main() {
     cout << "\n  Connected to active game: ";
     coords.game = io.get_cursor_position();
     io.write_str("NO", FOREGROUND_RED);
+
+    cout << "\n  Version: ";
+    coords.version = io.get_cursor_position();
+    io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
 
     cout << "\n\nCheat functions:";
     cout << "\n  Bunny hop (F2): ";
@@ -81,7 +85,7 @@ int main() {
 
     cout << "\n  Use trigger bot (LAlt): ";
     coords.use_trigger = io.get_cursor_position();
-    io.write_str("HOLD", FOREGROUND_GREEN | FOREGROUND_RED, true);
+    io.write_str("HOLD", FOREGROUND_GREEN | FOREGROUND_RED);
 
     /*cout << "\n  Teammate glow ESP (F7): ";
     coords.team_wh = io.get_cursor_position();
@@ -98,6 +102,14 @@ int main() {
     cout << "\n  Panic mode (END): ";
     io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
 
+    // TODO: Do this in a parallel thread
+    std::pair<bool, bool> latest = is_latest();
+
+    io.set_cursor_position(coords.version);
+    if (latest.first) io.write_str("ERROR", FOREGROUND_RED);
+    else if (latest.second) io.write_str("LATEST", FOREGROUND_GREEN);
+    else io.write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
+
     while (true) {
         ac.check_for_debug();
 
@@ -107,14 +119,14 @@ int main() {
             if (!pHandle) {
                 pHandle = true;
                 io.set_cursor_position(coords.process);
-                io.write_str("YES", FOREGROUND_GREEN, true);
+                io.write_str("YES", FOREGROUND_GREEN);
             }
 
             while (client.in_game()) {
                 if (!game) {
                     game = true;
                     io.set_cursor_position(coords.game);
-                    io.write_str("YES", FOREGROUND_GREEN, true);
+                    io.write_str("YES", FOREGROUND_GREEN);
                     client.update_gamemode();
                     hacks.init();
                 }
@@ -127,7 +139,7 @@ int main() {
                     if (f6 != state.activate_trigger) {
                         state.activate_trigger = f6;
                         io.set_cursor_position(coords.activate_trigger);
-                        io.write_str(state.activate_trigger ? "ON" : "OFF", state.activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.activate_trigger ? "ON" : "OFF", state.activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.activate_trigger && lalt && !l_mouse) hacks.trigger_bot(client.is_dangerzone());
@@ -139,7 +151,7 @@ int main() {
                     if (f4 != state.aimbot) {
                         state.aimbot = f4;
                         io.set_cursor_position(coords.aimbot);
-                        io.write_str(state.aimbot ? "ON" : "OFF", state.aimbot ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.aimbot ? "ON" : "OFF", state.aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.aimbot) hacks.aim_bot();
@@ -160,13 +172,13 @@ int main() {
                     if (f8 != state.enemy_wh) {
                         state.enemy_wh = f8;
                         io.set_cursor_position(coords.enemy_wh);
-                        io.write_str(state.enemy_wh ? "ON" : "OFF", state.enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.enemy_wh ? "ON" : "OFF", state.enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (f9 != state.radar_hack) {
                         state.radar_hack = f9;
                         io.set_cursor_position(coords.radar_hack);
-                        io.write_str(state.radar_hack ? "ON" : "OFF", state.radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.radar_hack ? "ON" : "OFF", state.radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (/*state.team_wh || */state.enemy_wh || state.radar_hack) 
@@ -179,7 +191,7 @@ int main() {
                     if (f3 != state.no_flash) {
                         state.no_flash = f3;
                         io.set_cursor_position(coords.no_flash);
-                        io.write_str(state.no_flash ? "ON" : "OFF", state.no_flash ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.no_flash ? "ON" : "OFF", state.no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.no_flash) hacks.no_flash();
@@ -192,7 +204,7 @@ int main() {
                     if (f2 != state.bunny_hop) {
                         state.bunny_hop = f2;
                         io.set_cursor_position(coords.bunny_hop);
-                        io.write_str(f2 ? "ON" : "OFF", f2 ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(f2 ? "ON" : "OFF", f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.bunny_hop && space) hacks.bunny_hop();
@@ -206,13 +218,13 @@ int main() {
             game = false;
             hacks.bsp_setted = false;
             io.set_cursor_position(coords.game);
-            io.write_str("WAITING", FOREGROUND_GREEN | FOREGROUND_RED, true);
+            io.write_str("WAITING", FOREGROUND_GREEN | FOREGROUND_RED);
             Sleep(5000);
         }
 
         pHandle = false;
         io.set_cursor_position(coords.process);
-        io.write_str("CONNECTING", FOREGROUND_GREEN | FOREGROUND_RED, true);
+        io.write_str("CONNECTING", FOREGROUND_GREEN | FOREGROUND_RED);
         ++connect_count;
         Sleep(5000);
         if (connect_count >= 2) {
