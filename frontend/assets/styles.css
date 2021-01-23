@@ -53,17 +53,20 @@ body {
 .button {
   display: inline-block;
   cursor: pointer;
-  color: hsl(0, 0%, 100%);
   text-decoration: none;
   margin:7px;
   padding: 10px;
   font-size: 20px;
-  border: .5px solid hsl(261, 85%, 81%);
   border-radius: 50px;
   transition: all .4s ease;
 }
 
-.button:hover {
+.regular {
+  color: hsl(0, 0%, 100%);
+  border: .5px solid hsl(261, 85%, 81%);
+}
+
+.regular:hover {
   color: hsl(265, 41%, 15%);
   background-color: hsl(261, 85%, 81%);
 }
