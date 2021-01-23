@@ -8,11 +8,18 @@
 #include <TlHelp32.h>
 #include "misc/config.hpp"
 
+struct MODULE {
+	DWORD base;
+	DWORD size;
+};
+
 class Memory {
 public:
 	DWORD tPID;
 	DWORD clientBaseAddr;
+	DWORD clientSize;
 	DWORD engineBaseAddr;
+	DWORD engineSize;
 	HANDLE tProcess;
 	HWND tHWND;
 
@@ -23,8 +30,13 @@ public:
 		if (!this->handle_process(TARGET)) return;
 
 		this->tHWND = FindWindowA(0, WINDOW_NAME);
-		this->clientBaseAddr = get_module(CLIENT_DLL);
-		this->engineBaseAddr = get_module(ENGINE_DLL);
+		MODULE client_dll = get_module(CLIENT_DLL);
+		MODULE engine_dll = get_module(ENGINE_DLL);
+
+		this->clientBaseAddr = client_dll.base;
+		this->engineBaseAddr = engine_dll.base;
+		this->clientSize = client_dll.size;
+		this->engineSize = engine_dll.size;
 	}
 
 	~Memory() {
@@ -48,7 +60,7 @@ public:
 		return NULL;
 	}
 
-	DWORD get_module(const wchar_t* moduleName) {
+	MODULE get_module(const wchar_t* moduleName) {
 		HANDLE hmodule = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, tPID);
 		MODULEENTRY32 me32;
 		me32.dwSize = sizeof(me32);
@@ -56,12 +68,12 @@ public:
 		do {
 			if (!wcscmp(me32.szModule, moduleName)) {
 				CloseHandle(hmodule);
-				return (DWORD)me32.modBaseAddr;
+				return { (DWORD)me32.modBaseAddr, (DWORD)me32.modBaseSize };
 			}
 		} while (Module32Next(hmodule, &me32));
 
 		CloseHandle(hmodule);
-		return NULL;
+		return { NULL, NULL };
 	}
 
 	template <typename var>

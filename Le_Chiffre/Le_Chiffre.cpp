@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <ctime>
+#include <thread>
 #include "memory.hpp"
 #include "signatures.hpp"
 #include "client.hpp"
@@ -8,6 +9,7 @@
 #include "antiAC.hpp"
 #include "misc/console_io.hpp"
 #include "misc/utils.hpp"
+// #include "sig_scanner.hpp"
 // #include "overlay/overlay.hpp"
 
 using std::cout;
@@ -16,6 +18,23 @@ using std::endl;
 struct hacks_coords {
     COORD no_flash, activate_trigger, use_trigger, /*team_wh,*/ enemy_wh, radar_hack, bunny_hop, aimbot, process, game, version;
 };
+
+typedef struct Params {
+    ConsoleIO* io;
+    COORD coords;
+} PRINT_PARAMS;
+
+DWORD WINAPI print_version_status(LPVOID lpParam) {
+    PRINT_PARAMS* params = (PRINT_PARAMS*)lpParam;
+    std::pair<bool, bool> latest = is_latest();
+
+    (params->io)->set_cursor_position(params->coords);
+    if (latest.first) (params->io)->write_str("ERROR", FOREGROUND_RED);
+    else if (latest.second) (params->io)->write_str("LATEST", FOREGROUND_GREEN);
+    else (params->io)->write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
+
+    return 0;
+}
 
 struct hacks_state {
     bool no_flash = false;
@@ -30,14 +49,17 @@ struct hacks_state {
 
 int main() {
     ConsoleIO io;
-
     cout << "Loading...";
-    std::pair<bool, bool> latest = is_latest(); // TODO: Do this in a parallel thread
+    std::pair<bool, bool> latest = is_latest();
 
     AntiAC ac;
     srand((unsigned int)time(NULL));
     
     Memory mem;
+    
+    // SigScanner ss(mem.tProcess);
+    // ::std::ptrdiff_t dwEntityList = ss.find_signature("\x55\x8B\xEC\x51\x53\x8A\x5D\x08", "xxxxxxxx", mem.clientBaseAddr, mem.clientBaseAddr + mem.clientSize); // a test offset scan
+
     Client client(&mem);
     Hacks hacks(&mem, &client);
     // Overlay ol(&mem);
@@ -52,7 +74,7 @@ int main() {
     int connect_count = 0;
 
     cout << std::string(10, '\b');
-    cout << "Le Chiffre v1.0.4 [21 Jan, 2021]" << endl << endl;
+    cout << "Le Chiffre v1.1.0 [24 Jan, 2021]" << endl << endl;
     cout << "The official website: https://lechiffre.now.sh" << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
 
@@ -108,6 +130,13 @@ int main() {
 
     cout << "\n  Panic mode (END): ";
     io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
+
+    // TODO: Fix.
+    // Printing cheat version status asynchronously
+    /* PRINT_PARAMS pd = {};
+    pd.io = &io;
+    pd.coords = coords.version;
+    HANDLE print_ver = CreateThread(NULL, NULL, print_version_status, &pd, NULL, NULL); */
 
     while (true) {
         ac.check_for_debug();

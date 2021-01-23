@@ -8,13 +8,13 @@ class SigScanner {
 private:
 	HANDLE process;
 
-	char* _scan(char* pattern, char* mask, char* begin, unsigned int size) {
-		unsigned int patternLength = strlen(mask);
+	char* _scan(const char* pattern, const char* mask, char* begin, unsigned size) {
+		unsigned patternLength = strlen(mask);
 
-		for (unsigned int i = 0; i < size - patternLength; i++) {
+		for (unsigned i = 0; i < size - patternLength; i++) {
 			bool found = true;
 
-			for (unsigned int j = 0; j < patternLength; j++) {
+			for (unsigned j = 0; j < patternLength; j++) {
 				if (mask[j] != '?' && pattern[j] != *(begin + i + j)) {
 					found = false;
 					break;
@@ -36,15 +36,15 @@ public:
 		this->process = process;
 	}
 
-	char* find_signature(char* pattern, char* mask, char* begin, char* end) { // https://stackoverflow.com/a/55113370
-		char* current = begin;
-		char* match = nullptr;
+	::std::ptrdiff_t find_signature(const char* pattern, const char* mask, DWORD begin, DWORD end) { // https://stackoverflow.com/a/55113370
+		DWORD current = begin;
+		::std::ptrdiff_t match = NULL;
 		SIZE_T bytes_read = 0;
 
 		while (current < end) {
 			MEMORY_BASIC_INFORMATION mbi;
 
-			if (!VirtualQueryEx(process, current, &mbi, sizeof(mbi))) return nullptr;
+			if (!VirtualQueryEx(process, &current, &mbi, sizeof(mbi))) return NULL;
 
 			char* buffer = new char[mbi.RegionSize];
 
