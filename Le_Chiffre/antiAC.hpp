@@ -5,14 +5,6 @@
 // #define _WIN32_WINNT 0x0400 // https://docs.microsoft.com/en-us/windows/win32/api/debugapi/nf-debugapi-isdebuggerpresent
 #include "Windows.h"
 
-//#pragma section(".CRT$XLY", long, read)
-//__declspec(thread) int var = 0xDEADBEEF; 
-//VOID NTAnopPI tls_callback(PVOID DllHandle, DWORD Reason, VOID Reserved) {
-//	var = 0xB15BADB0; 
-//	if (IsDebuggerPresent()) ExitProcess(0);
-//}
-//__declspec(allocate(".CRT$XLY"))PIMAGE_TLS_CALLBACK g_tlsCallback = tls_callback;
-
 class AntiAC {
 private:
 	HMODULE module_handle;
