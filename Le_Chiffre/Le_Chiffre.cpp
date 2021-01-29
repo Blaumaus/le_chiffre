@@ -9,6 +9,7 @@
 #include "antiAC.hpp"
 #include "misc/console_io.hpp"
 #include "misc/utils.hpp"
+#include "misc/config.hpp"
 // #include "sig_scanner.hpp"
 // #include "overlay/overlay.hpp"
 
@@ -74,7 +75,7 @@ int main() {
     int connect_count = 0;
 
     cout << std::string(10, '\b');
-    cout << "Le Chiffre v1.1.0 [24 Jan, 2021]" << endl << endl;
+    cout << "Le Chiffre " << CHEAT_VERSION << " [28 Jan, 2021]" << endl << endl;
     cout << "The official website: https://lechiffre.now.sh" << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
 
