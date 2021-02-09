@@ -46,7 +46,7 @@ private:
 		return dangerzone || player->get_team() != enemy.get_team();
 	}
 
-	void _team_glow(PlayerEntity* target, DWORD glow_obj) {
+	void _regular_glow(PlayerEntity* target, DWORD glow_obj) {
 		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
 		gt.red = 1.0f;
 		gt.green = 1.0f;
@@ -143,7 +143,7 @@ public:
 
 				int target_team = target.get_team();
 
-				if (player_team == target_team && glow_on_teammate) _team_glow(&target, glow_obj);
+				if (player_team == target_team && glow_on_teammate) _regular_glow(&target, glow_obj);
 				else if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
 				
 				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);

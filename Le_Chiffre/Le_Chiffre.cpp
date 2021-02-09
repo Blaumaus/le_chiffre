@@ -75,7 +75,7 @@ int main() {
     int connect_count = 0;
 
     cout << std::string(10, '\b');
-    cout << "Le Chiffre " << CHEAT_VERSION << " [5 Feb, 2021]" << endl << endl;
+    cout << "Le Chiffre " << CHEAT_VERSION << " [9 Feb, 2021]" << endl << endl;
     cout << "The official website: https://lechiffre.now.sh" << endl;
     cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
 
@@ -138,7 +138,7 @@ int main() {
     pd.io = &io;
     pd.coords = coords.version;
     HANDLE print_ver = CreateThread(NULL, NULL, print_version_status, &pd, NULL, NULL); */
-
+    
     while (true) {
         ac.check_for_debug();
 
