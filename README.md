@@ -26,7 +26,6 @@ You have to use at least the C++17 standard (due to bsp_parser library requireme
 - CS:GO Overlay to show info like bomb ticker, spectators, etc.
 - Aim assist.
 - Improve ESP (show the bomb, bomb carrier in a different colour, etc).
-- Encrypt all strings on compile time (using XOR encryptions, for instance).
 - Make all features asynchronous for speed performance.
 - CS:GO offsets autoparser.
 
