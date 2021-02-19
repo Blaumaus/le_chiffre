@@ -74,5 +74,8 @@
     <ClInclude Include="misc\console_io.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="misc\xor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
