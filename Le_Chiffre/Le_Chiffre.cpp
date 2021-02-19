@@ -10,6 +10,7 @@
 #include "misc/console_io.hpp"
 #include "misc/utils.hpp"
 #include "misc/config.hpp"
+#include "misc/xor.hpp"
 // #include "sig_scanner.hpp"
 // #include "overlay/overlay.hpp"
 
@@ -50,7 +51,7 @@ struct hacks_state {
 
 int main() {
     ConsoleIO io;
-    cout << "Loading...";
+    cout << XorStr("Loading...");
     std::pair<bool, bool> latest = is_latest();
 
     AntiAC ac;
@@ -73,64 +74,68 @@ int main() {
   
     bool pHandle = false, game = false;
     int connect_count = 0;
+    char* on = XorStr("ON");
+    char* off = XorStr("OFF");
+    char* yes = XorStr("YES");
+    char* no = XorStr("NO");
 
     cout << std::string(10, '\b');
-    cout << "Le Chiffre " << CHEAT_VERSION << " [9 Feb, 2021]" << endl << endl;
-    cout << "The official website: https://lechiffre.now.sh" << endl;
-    cout << "Support the developer: https://donationalerts.com/r/fuckblm" << endl << endl;
+    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [19 Feb, 2021]") << endl << endl;
+    cout << XorStr("The official website: https://lechiffre.now.sh") << endl;
+    cout << XorStr("Support the developer: https://donationalerts.com/r/fuckblm") << endl << endl;
 
     // TODO: Refactor
-    cout << "State:";
-    cout << "\n  Connected to CS:GO process: ";
+    cout << XorStr("State:");
+    cout << XorStr("\n  Connected to CS:GO process: ");
     coords.process = io.get_cursor_position();
-    io.write_str("NO", FOREGROUND_RED);
+    io.write_str(no, FOREGROUND_RED);
 
-    cout << "\n  Connected to active game: ";
+    cout << XorStr("\n  Connected to active game: ");
     coords.game = io.get_cursor_position();
-    io.write_str("NO", FOREGROUND_RED);
+    io.write_str(no, FOREGROUND_RED);
 
-    cout << "\n  Version: ";
+    cout << XorStr("\n  Version: ");
     coords.version = io.get_cursor_position();
     // io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
-    if (latest.first) io.write_str("ERROR", FOREGROUND_RED);
-    else if (latest.second) io.write_str("LATEST", FOREGROUND_GREEN);
-    else io.write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
+    if (latest.first) io.write_str(XorStr("ERROR"), FOREGROUND_RED);
+    else if (latest.second) io.write_str(XorStr("LATEST"), FOREGROUND_GREEN);
+    else io.write_str(XorStr("OUTDATED"), FOREGROUND_GREEN | FOREGROUND_RED);
 
-    cout << "\n\nCheat functions:";
-    cout << "\n  Bunny hop (F2): ";
+    cout << XorStr("\n\nCheat functions:");
+    cout << XorStr("\n  Bunny hop (F2): ");
     coords.bunny_hop = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  No flashbang (F3): ";
+    cout << XorStr("\n  No flashbang (F3): ");
     coords.no_flash = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  Aimbot (F4): ";
+    cout << XorStr("\n  Aimbot (F4): ");
     coords.aimbot = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  Activate trigger bot (F6): ";
+    cout << XorStr("\n  Activate trigger bot (F6): ");
     coords.activate_trigger = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  Use trigger bot (LAlt): ";
+    cout << XorStr("\n  Use trigger bot (LAlt): ");
     coords.use_trigger = io.get_cursor_position();
-    io.write_str("HOLD", FOREGROUND_GREEN | FOREGROUND_RED);
+    io.write_str(XorStr("HOLD"), FOREGROUND_GREEN | FOREGROUND_RED);
 
     /*cout << "\n  Teammate glow ESP (F7): ";
     coords.team_wh = io.get_cursor_position();
     io.write_str("OFF", FOREGROUND_RED);*/
 
-    cout << "\n  Glow ESP (F8): ";
+    cout << XorStr("\n  Glow ESP (F8): ");
     coords.enemy_wh = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  Radar hack (F9): ";
+    cout << XorStr("\n  Radar hack (F9): ");
     coords.radar_hack = io.get_cursor_position();
-    io.write_str("OFF", FOREGROUND_RED);
+    io.write_str(off, FOREGROUND_RED);
 
-    cout << "\n  Panic mode (END): ";
-    io.write_str("PRESS", FOREGROUND_GREEN | FOREGROUND_RED);
+    cout << XorStr("\n  Panic mode (END): ");
+    io.write_str(XorStr("PRESS"), FOREGROUND_GREEN | FOREGROUND_RED);
 
     // TODO: Fix.
     // Printing cheat version status asynchronously
@@ -148,14 +153,14 @@ int main() {
             if (!pHandle) {
                 pHandle = true;
                 io.set_cursor_position(coords.process);
-                io.write_str("YES", FOREGROUND_GREEN);
+                io.write_str(yes, FOREGROUND_GREEN);
             }
 
             while (client.in_game()) {
                 if (!game) {
                     game = true;
                     io.set_cursor_position(coords.game);
-                    io.write_str("YES", FOREGROUND_GREEN);
+                    io.write_str(yes, FOREGROUND_GREEN);
                     client.update_gamemode();
                     hacks.init();
                 }
@@ -168,7 +173,7 @@ int main() {
                     if (f6 != state.activate_trigger) {
                         state.activate_trigger = f6;
                         io.set_cursor_position(coords.activate_trigger);
-                        io.write_str(state.activate_trigger ? "ON" : "OFF", state.activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(state.activate_trigger ? on : off, state.activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.activate_trigger && lalt && !l_mouse) hacks.trigger_bot(client.is_dangerzone());
@@ -180,7 +185,7 @@ int main() {
                     if (f4 != state.aimbot) {
                         state.aimbot = f4;
                         io.set_cursor_position(coords.aimbot);
-                        io.write_str(state.aimbot ? "ON" : "OFF", state.aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(state.aimbot ? on : off, state.aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.aimbot) hacks.aim_bot();
@@ -195,19 +200,19 @@ int main() {
                     /*if (f7 != state.team_wh) {
                         state.team_wh = f7;
                         io.set_cursor_position(coords.team_wh);
-                        io.write_str(state.team_wh ? "ON" : "OFF", state.team_wh ? FOREGROUND_GREEN : FOREGROUND_RED, true);
+                        io.write_str(state.team_wh ? on : off, state.team_wh ? FOREGROUND_GREEN : FOREGROUND_RED, true);
                     }*/
 
                     if (f8 != state.enemy_wh) {
                         state.enemy_wh = f8;
                         io.set_cursor_position(coords.enemy_wh);
-                        io.write_str(state.enemy_wh ? "ON" : "OFF", state.enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(state.enemy_wh ? on : off, state.enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (f9 != state.radar_hack) {
                         state.radar_hack = f9;
                         io.set_cursor_position(coords.radar_hack);
-                        io.write_str(state.radar_hack ? "ON" : "OFF", state.radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(state.radar_hack ? on : off, state.radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (/*state.team_wh || */state.enemy_wh || state.radar_hack) 
@@ -220,7 +225,7 @@ int main() {
                     if (f3 != state.no_flash) {
                         state.no_flash = f3;
                         io.set_cursor_position(coords.no_flash);
-                        io.write_str(state.no_flash ? "ON" : "OFF", state.no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(state.no_flash ? on : off, state.no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.no_flash) hacks.no_flash();
@@ -233,7 +238,7 @@ int main() {
                     if (f2 != state.bunny_hop) {
                         state.bunny_hop = f2;
                         io.set_cursor_position(coords.bunny_hop);
-                        io.write_str(f2 ? "ON" : "OFF", f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
+                        io.write_str(f2 ? on : off, f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
                     }
 
                     if (state.bunny_hop && space) hacks.bunny_hop();
@@ -247,13 +252,13 @@ int main() {
             game = false;
             hacks.bsp_setted = false;
             io.set_cursor_position(coords.game);
-            io.write_str("WAITING", FOREGROUND_GREEN | FOREGROUND_RED);
+            io.write_str(XorStr("WAITING"), FOREGROUND_GREEN | FOREGROUND_RED);
             Sleep(5000);
         }
 
         pHandle = false;
         io.set_cursor_position(coords.process);
-        io.write_str("CONNECTING", FOREGROUND_GREEN | FOREGROUND_RED);
+        io.write_str(XorStr("CONNECTING"), FOREGROUND_GREEN | FOREGROUND_RED);
         ++connect_count;
         Sleep(5000);
         if (connect_count >= 2) {
