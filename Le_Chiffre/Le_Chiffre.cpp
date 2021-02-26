@@ -80,7 +80,7 @@ int main() {
     char* no = XorStr("NO");
 
     cout << std::string(10, '\b');
-    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [19 Feb, 2021]") << endl << endl;
+    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [26 Feb, 2021]") << endl << endl;
     cout << XorStr("The official website: https://lechiffre.now.sh") << endl;
     cout << XorStr("Support the developer: https://donationalerts.com/r/fuckblm") << endl << endl;
 
