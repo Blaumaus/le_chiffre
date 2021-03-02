@@ -5,7 +5,7 @@
 #include "xor.hpp"
 
 namespace {
-	const ::std::string CHEAT_VERSION = XorStr("v1.1.5");
+	const ::std::string CHEAT_VERSION = XorStr("v1.1.6");
 	const wchar_t* HOST = L"api.github.com";
 	const wchar_t* PATH = L"/repos/blaumaus/le_chiffre/tags?per_page=1";
 	const wchar_t* TARGET = L"csgo.exe";

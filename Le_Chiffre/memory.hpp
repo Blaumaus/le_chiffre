@@ -9,7 +9,7 @@
 #include "misc/config.hpp"
 
 struct MODULE {
-	DWORD base;
+	/*BYTE* */DWORD base;
 	DWORD size;
 };
 
@@ -68,7 +68,7 @@ public:
 		do {
 			if (!wcscmp(me32.szModule, moduleName)) {
 				CloseHandle(hmodule);
-				return { (DWORD)me32.modBaseAddr, (DWORD)me32.modBaseSize };
+				return { (DWORD)me32.modBaseAddr, me32.modBaseSize };
 			}
 		} while (Module32Next(hmodule, &me32));
 

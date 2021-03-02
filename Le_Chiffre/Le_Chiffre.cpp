@@ -12,6 +12,7 @@
 #include "misc/config.hpp"
 #include "misc/xor.hpp"
 // #include "sig_scanner.hpp"
+// #include <cstddef>
 // #include "overlay/overlay.hpp"
 
 using std::cout;
@@ -58,9 +59,6 @@ int main() {
     srand((unsigned int)time(NULL));
     
     Memory mem;
-    
-    // SigScanner ss(mem.tProcess);
-    // ::std::ptrdiff_t dwEntityList = ss.find_signature("\x55\x8B\xEC\x51\x53\x8A\x5D\x08", "xxxxxxxx", mem.clientBaseAddr, mem.clientBaseAddr + mem.clientSize); // a test offset scan
 
     Client client(&mem);
     Hacks hacks(&mem, &client);
@@ -80,10 +78,15 @@ int main() {
     char* no = XorStr("NO");
 
     cout << std::string(10, '\b');
-    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [26 Feb, 2021]") << endl << endl;
+
+    /*SigScanner ss(mem.tProcess);
+    ::std::ptrdiff_t dwEntityList = (intptr_t)ss.find("55 8B EC 51 53 8A 5D 08", mem.clientBaseAddr, mem.clientSize);
+    cout << "dwEntityList " << dwEntityList << endl; */
+    
+    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [3 Mar, 2021]") << endl << endl;
     cout << XorStr("The official website: https://lechiffre.now.sh") << endl;
     cout << XorStr("Support the developer: https://donationalerts.com/r/fuckblm") << endl << endl;
-
+    
     // TODO: Refactor
     cout << XorStr("State:");
     cout << XorStr("\n  Connected to CS:GO process: ");
