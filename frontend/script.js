@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(e => console.log(e))
 
-  setTimeout(check_donation, 5000)
+  // setTimeout(check_donation, 5000)
 
   insights.init('QZXDaLRWC1XvtWGM', { ignoreErrors: true })
   insights.trackPages({
