@@ -16,8 +16,8 @@ public:
 		process_handle = GetCurrentProcess();
 		check_for_debug();
 
-		module_handle = GetModuleHandle(NULL);
-		erase_pe_headers();
+		// module_handle = GetModuleHandle(NULL);
+		// erase_pe_headers();
 	}
 
 	void check_for_debug() {
