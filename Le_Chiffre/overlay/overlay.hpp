@@ -72,7 +72,7 @@ public:
         if (!GetWindowRect(mem->tHWND, &rect)) return false;
         // std::cout << "x: [" << rect.left << ", " << rect.top << "]; y: [" << rect.right << ", " << rect.bottom << "]" << std::endl;
         _register_ñlass();
-        
+
         if (!_init_instance(rect.right - rect.left, rect.bottom - rect.top)) return false;
         paint = Paint(hwnd, mem->tHWND, rect.right - rect.left, rect.bottom - rect.top);
         

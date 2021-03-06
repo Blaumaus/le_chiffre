@@ -143,8 +143,8 @@ public:
 
 				int target_team = target.get_team();
 
-				if (player_team == target_team && glow_on_teammate) _regular_glow(&target, glow_obj);
-				else if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
+				// if (player_team == target_team && glow_on_teammate) _regular_glow(&target, glow_obj);
+				if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
 				
 				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);
 			}
@@ -152,6 +152,20 @@ public:
 
 		Sleep(5);
 	}
+
+	/* void get_spectators() {
+		int player_team = player.get_team();
+
+		for (short i = 0; i < 32; ++i) {
+			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
+
+			if (target.valid_player()) {
+				int target_team = target.get_team();
+				if (player_team != target_team) continue;
+
+			}
+		}
+	} */
 
 	void aim_bot() {
 		PlayerEntity target = _get_closest_enemy();

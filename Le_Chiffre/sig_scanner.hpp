@@ -29,8 +29,8 @@ private:
 		return 0;
 	}
 
-	BYTE* _find_signature(char* pattern, char* mask, BYTE* begin, intptr_t size) {
-		BYTE* match { nullptr };
+	char* _find_signature(char* pattern, char* mask, char* begin, intptr_t size) {
+		char* match { nullptr };
 		SIZE_T bytesRead;
 		DWORD oldprotect;
 		char* buffer{ nullptr };
@@ -39,7 +39,7 @@ private:
 
 		VirtualQueryEx(process, (LPCVOID)begin, &mbi, sizeof(mbi));
 
-		for (BYTE* current = begin; current < begin + size; current += mbi.RegionSize) {
+		for (char* current = begin; current < begin + size; current += mbi.RegionSize) {
 			if (!VirtualQueryEx(process, (LPCVOID)current, &mbi, sizeof(mbi))) continue;
 			if (mbi.State != MEM_COMMIT || mbi.Protect == PAGE_NOACCESS) continue;
 
@@ -72,21 +72,21 @@ public:
 		this->process = process;
 	}
 
-	BYTE* find (const char* signature, BYTE* begin, intptr_t size) {
+	char* find (const char* signature, char* begin, intptr_t size) {
 		char pattern[50];
 		char mask[50];
-		char lastChar = ' ';
+		char last_char = ' ';
 		unsigned int j = 0;
 
 		for (unsigned int i = 0; i < strlen(signature); ++i, ++j) {
-			if ((signature[i] == '?' || signature[i] == '*') && (lastChar != '?' && lastChar != '*')) {
+			if ((signature[i] == '?' || signature[i] == '*') && (last_char != '?' && last_char != '*')) {
 				pattern[j] = mask[j] = '?';
-			} else if (isspace(lastChar)) {
-				pattern[j] = lastChar = (char)strtol(&signature[i], 0, 16);
+			} else if (isspace(last_char)) {
+				pattern[j] = last_char = (char)strtol(&signature[i], 0, 16);
 				mask[j] = 'x';
 			}
 
-			lastChar = signature[i];
+			last_char = signature[i];
 		}
 		pattern[j] = mask[j] = '\0';
 

@@ -11,7 +11,7 @@
 #include "misc/utils.hpp"
 #include "misc/config.hpp"
 #include "misc/xor.hpp"
-// #include "sig_scanner.hpp"
+#include "sig_scanner.hpp"
 // #include <cstddef>
 // #include "overlay/overlay.hpp"
 
@@ -21,23 +21,6 @@ using std::endl;
 struct hacks_coords {
     COORD no_flash, activate_trigger, use_trigger, /*team_wh,*/ enemy_wh, radar_hack, bunny_hop, aimbot, process, game, version;
 };
-
-typedef struct Params {
-    ConsoleIO* io;
-    COORD coords;
-} PRINT_PARAMS;
-
-DWORD WINAPI print_version_status(LPVOID lpParam) {
-    PRINT_PARAMS* params = (PRINT_PARAMS*)lpParam;
-    std::pair<bool, bool> latest = is_latest();
-
-    (params->io)->set_cursor_position(params->coords);
-    if (latest.first) (params->io)->write_str("ERROR", FOREGROUND_RED);
-    else if (latest.second) (params->io)->write_str("LATEST", FOREGROUND_GREEN);
-    else (params->io)->write_str("OUTDATED", FOREGROUND_GREEN | FOREGROUND_RED);
-
-    return 0;
-}
 
 struct hacks_state {
     bool no_flash = false;
@@ -50,16 +33,11 @@ struct hacks_state {
     bool aimbot = false;
 };
 
-int main() {
-    ConsoleIO io;
-    cout << XorStr("Loading...");
-    std::pair<bool, bool> latest = is_latest();
-
-    AntiAC ac;
+int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     srand((unsigned int)time(NULL));
-    
+    ConsoleIO io;
+    AntiAC ac;
     Memory mem;
-
     Client client(&mem);
     Hacks hacks(&mem, &client);
     // Overlay ol(&mem);
@@ -78,16 +56,15 @@ int main() {
     char* no = XorStr("NO");
 
     cout << std::string(10, '\b');
-
     /*SigScanner ss(mem.tProcess);
-    ::std::ptrdiff_t dwEntityList = (intptr_t)ss.find("55 8B EC 51 53 8A 5D 08", mem.clientBaseAddr, mem.clientSize);
-    cout << "dwEntityList " << dwEntityList << endl; */
+    char* dwEntityList = ss.find("55 8B EC 51 53 8A 5D 08", (char*)mem.clientBaseAddr, mem.clientSize);
+    for (int i = 0; i < strlen(dwEntityList); ++i) cout << dwEntityList[i];
+    cout << endl;*/
     
-    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [3 Mar, 2021]") << endl << endl;
+    cout << XorStr("Le Chiffre ") << CHEAT_VERSION << XorStr(" [6 Mar, 2021]") << endl << endl;
     cout << XorStr("The official website: https://lechiffre.now.sh") << endl;
     cout << XorStr("Support the developer: https://donationalerts.com/r/fuckblm") << endl << endl;
     
-    // TODO: Refactor
     cout << XorStr("State:");
     cout << XorStr("\n  Connected to CS:GO process: ");
     coords.process = io.get_cursor_position();
@@ -99,10 +76,10 @@ int main() {
 
     cout << XorStr("\n  Version: ");
     coords.version = io.get_cursor_position();
-    // io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
-    if (latest.first) io.write_str(XorStr("ERROR"), FOREGROUND_RED);
-    else if (latest.second) io.write_str(XorStr("LATEST"), FOREGROUND_GREEN);
-    else io.write_str(XorStr("OUTDATED"), FOREGROUND_GREEN | FOREGROUND_RED);
+    io.write_str("LOADING", FOREGROUND_GREEN | FOREGROUND_RED);
+
+    std::thread print_ver(print_version_status, &io, coords.version);
+    print_ver.detach();
 
     cout << XorStr("\n\nCheat functions:");
     cout << XorStr("\n  Bunny hop (F2): ");
@@ -139,20 +116,9 @@ int main() {
 
     cout << XorStr("\n  Panic mode (END): ");
     io.write_str(XorStr("PRESS"), FOREGROUND_GREEN | FOREGROUND_RED);
-
-    // TODO: Fix.
-    // Printing cheat version status asynchronously
-    /* PRINT_PARAMS pd = {};
-    pd.io = &io;
-    pd.coords = coords.version;
-    HANDLE print_ver = CreateThread(NULL, NULL, print_version_status, &pd, NULL, NULL); */
     
     while (true) {
-        ac.check_for_debug();
-
         while (mem.tProcess != NULL && mem.clientBaseAddr != NULL && mem.engineBaseAddr != NULL) {
-            ac.check_for_debug();
-
             if (!pHandle) {
                 pHandle = true;
                 io.set_cursor_position(coords.process);

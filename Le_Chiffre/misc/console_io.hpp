@@ -9,8 +9,9 @@ class ConsoleIO {
 private:
     HWND console_window;
     HANDLE screen_buffer;
-    short screen_width;
-    short screen_height;
+    const short screen_width = 62;
+    const short screen_height = 19;
+    FILE* fp;
 
     // adjusts window to desired width and height
     void _set_window() { // https://stackoverflow.com/a/40634467
@@ -19,10 +20,10 @@ private:
         SMALL_RECT const minimal_window = { 0, 0, 1, 1 }; // to get rid of scroll bars
         SetConsoleWindowInfo(screen_buffer, TRUE, &minimal_window);
 
-        SetConsoleScreenBufferSize(screen_buffer, size);
-
         SMALL_RECT const window = { 0, 0, size.X - 1, size.Y - 1 };
         SetConsoleWindowInfo(screen_buffer, TRUE, &window);
+
+        SetConsoleScreenBufferSize(screen_buffer, size);
     }
 
     void _set_cursor() {
@@ -32,14 +33,18 @@ private:
 
 public:
     ConsoleIO() {
-        console_window = GetConsoleWindow();
+        AllocConsole();
         screen_buffer = GetStdHandle(STD_OUTPUT_HANDLE);
-        screen_width = 62;
-        screen_height = 20;
+        console_window = GetConsoleWindow();
 
         SetWindowLong(console_window, GWL_STYLE, GetWindowLong(console_window, GWL_STYLE) & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX);
         _set_window();
         _set_cursor();
+        freopen_s(&fp, "CONOUT$", "w", stdout);
+    }
+
+    ~ConsoleIO() {
+        fclose(fp);
     }
 
     void write_str(const char* str, WORD colour, bool clear_right = true) {
