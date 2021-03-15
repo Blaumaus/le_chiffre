@@ -9,13 +9,14 @@
 #include "../memory.hpp"
 #include <iostream>
 #include <dwmapi.h>
+#include "../misc/xor.hpp"
 #pragma comment(lib, "dwmapi.lib")
 
 Paint paint; // draw, write text or do other manipulations with the overlay
 
 class Overlay {
 private:
-	WCHAR _title[20] = L"test"; // overlay window title
+	WCHAR _title[20]; // overlay window title
     Memory* mem;
     RECT rect; // coordinates of target window
 
@@ -35,7 +36,7 @@ private:
         wc.hbrBackground = WHITE_BRUSH;
         wc.lpszMenuName = NULL;
         wc.lpszClassName = _title;
-        wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);;
+        wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
         return RegisterClassEx(&wc);
     }
@@ -55,12 +56,26 @@ private:
         return true;
     }
 
+    void _set_title() {
+        for (byte i = 0; i < 19; ++i) {
+            _title[i] = 97 + rand() % 26; // [97, 122] - a-z in ASCII
+        }
+        _title[19] = '\0';
+    }
+
 public:
     HWND hwnd; // an HWND to the overlay window
 
     Overlay(Memory* mem) {
         this->mem = mem;
-        if (!init()) std::cout << "OVERLAY INIT ERROR" << std::endl;
+        if (!init()) {
+            MessageBox(
+                NULL, 
+                XorStrW(L"Error during overlay initialisation.\nThis is most likely due to the cheat failing to detect the game process.\nPlease make sure the game is running and try again."), 
+                NULL, 
+                MB_OK | MB_ICONERROR | MB_TOPMOST
+            );
+        }
     }
 
     ~Overlay() {
@@ -70,6 +85,7 @@ public:
     bool init() {
         if (!mem->tHWND) return false;
         if (!GetWindowRect(mem->tHWND, &rect)) return false;
+        _set_title();
         // std::cout << "x: [" << rect.left << ", " << rect.top << "]; y: [" << rect.right << ", " << rect.bottom << "]" << std::endl;
         _register_ñlass();
 
@@ -96,7 +112,7 @@ public:
 
                 MoveWindow(hwnd, rect.left, rect.top, width, height, true);
             }
-            Sleep(1);
+            Sleep(10);
         }
 
         return (int)msg.wParam;

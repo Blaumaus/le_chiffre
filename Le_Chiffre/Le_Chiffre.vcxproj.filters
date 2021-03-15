@@ -77,5 +77,17 @@
     <ClInclude Include="misc\xor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="i18n\i18n.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\en.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\ru.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\uk.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

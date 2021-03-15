@@ -44,13 +44,4 @@ std::pair<bool, bool> is_latest() {
 	if (ver == "ERROR") return std::make_pair(true, false);
 	return std::make_pair(false, ver == CHEAT_VERSION);
 }
-
-void print_version_status(ConsoleIO* io, COORD coords) {
-	std::pair<bool, bool> latest = is_latest();
-
-	io->set_cursor_position(coords);
-	if (latest.first) io->write_str(XorStr("ERROR"), FOREGROUND_RED);
-	else if (latest.second) io->write_str(XorStr("LATEST"), FOREGROUND_GREEN);
-	else io->write_str(XorStr("OUTDATED"), FOREGROUND_GREEN | FOREGROUND_RED);
-}
 #endif // !UTILS_HPP

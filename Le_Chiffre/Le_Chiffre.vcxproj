@@ -202,6 +202,10 @@
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\matrix.hpp" />
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\requirements.hpp" />
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\valve_structs.hpp" />
+    <ClInclude Include="i18n\en.hpp" />
+    <ClInclude Include="i18n\i18n.hpp" />
+    <ClInclude Include="i18n\ru.hpp" />
+    <ClInclude Include="i18n\uk.hpp" />
     <ClInclude Include="misc\config.hpp" />
     <ClInclude Include="misc\console_io.hpp" />
     <ClInclude Include="hacks.hpp" />

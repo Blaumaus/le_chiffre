@@ -16,5 +16,9 @@ namespace {
 	struct coords_vector {
 		float x, y, z;
 	};
+
+	struct hacks_coords {
+		COORD no_flash, activate_trigger, use_trigger, enemy_wh, radar_hack, bunny_hop, aimbot, process, game, version, language;
+	};
 }
 #endif
