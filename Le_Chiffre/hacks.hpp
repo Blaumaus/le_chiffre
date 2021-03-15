@@ -46,17 +46,6 @@ private:
 		return dangerzone || player->get_team() != enemy.get_team();
 	}
 
-	void _regular_glow(PlayerEntity* target, DWORD glow_obj) {
-		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
-		gt.red = 1.0f;
-		gt.green = 1.0f;
-		gt.blue = 1.0f;
-		gt.alpha = 0.8f;
-		gt.redner_occluded = true;
-		gt.render_unoccluded = false;
-		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
-	}
-
 	void _enemy_glow(PlayerEntity* target, DWORD glow_obj) {
 		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
 		gt.red = 1.0f;
@@ -68,7 +57,7 @@ private:
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
 	}
 
-	void _carrier_glow(PlayerEntity* target, DWORD glow_obj) {
+	/* void _carrier_glow(PlayerEntity* target, DWORD glow_obj) {
 		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
 		gt.red = .4f;
 		gt.green = .5f;
@@ -77,7 +66,7 @@ private:
 		gt.redner_occluded = true;
 		gt.render_unoccluded = false;
 		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
-	}
+	} */
 
 	// returns an entity which is visible and closest to local player on XYZ axis coordinates
 	// if no players are located near local player, it will return an invalid PlayerEntity object
@@ -126,11 +115,11 @@ public:
 		if (player.valid_player() && player.get_flash_duration() > 0.f) player.set_flash_duration(0.f);
 	}
 
-	void glow_esp_radar(bool glow_on_teammate, bool glow_on_enemy, bool radar_hack, bool dangerzone = false) {
+	void glow_esp_radar(bool glow_on_enemy, bool radar_hack, bool dangerzone = false) {
 		DWORD glow_obj;
 		int player_team = player.get_team();
 
-		if (glow_on_teammate || glow_on_enemy) glow_obj = memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwGlowObjectManager);
+		if (glow_on_enemy) glow_obj = memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwGlowObjectManager);
 
 		for (short i = 0; i < 32; ++i) {
 			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
@@ -143,7 +132,6 @@ public:
 
 				int target_team = target.get_team();
 
-				// if (player_team == target_team && glow_on_teammate) _regular_glow(&target, glow_obj);
 				if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
 				
 				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);
@@ -171,7 +159,7 @@ public:
 		PlayerEntity target = _get_closest_enemy();
 
 		if (target.valid_player()) {
-			client->set_sensitivity(0.f);
+			client->set_sensitivity(3.f);
 			player.aim_at(target.get_bone_position(8));
 		} else client->reset_sensitivity();
 	}
