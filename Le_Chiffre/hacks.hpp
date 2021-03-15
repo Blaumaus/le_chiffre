@@ -159,7 +159,7 @@ public:
 		PlayerEntity target = _get_closest_enemy();
 
 		if (target.valid_player()) {
-			client->set_sensitivity(3.f);
+			client->set_sensitivity(0.f);
 			player.aim_at(target.get_bone_position(8));
 		} else client->reset_sensitivity();
 	}
