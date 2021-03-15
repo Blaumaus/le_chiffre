@@ -16,9 +16,9 @@ namespace i18n {
 	using std::map;
 
 	map<std::string, map<string, wstring>> t {
-		{ "EN", en },
-		{ "UK", uk },
-		{ "RU", ru },
+		{ XorStr("EN"), en },
+		{ XorStr("UK"), uk },
+		{ XorStr("RU"), ru },
 	};
 
 	class Internalisation {
