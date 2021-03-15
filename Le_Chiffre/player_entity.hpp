@@ -92,8 +92,8 @@ public:
 		float yaw = (float)atan2(delta.y, delta.x) * (180 / (float)M_PI);
 
 		if (pitch >= -89 && pitch <= 89 && yaw >= -180 && yaw <= 180) {
-			view_angles.x = pitch;
-			view_angles.y = yaw;
+			view_angles.x = pitch; // / smoothing;
+			view_angles.y = yaw; // / smoothing;
 		}
 
 		memory->write_mem<coords_vector>(clst + signatures::dwClientState_ViewAngles, view_angles);
@@ -191,6 +191,11 @@ public:
 	inline float get_distance(coords_vector target) {
 		coords_vector local = get_origin();
 		return (float)sqrt(pow(target.x - local.x, 2) + pow(target.y - local.y, 2) + pow(target.z - local.z, 2));
+	}
+
+	// returns the distance between two points located on XY coords
+	inline float get_distance_2d(coords_vector p1, coords_vector p2) {
+		return (float)sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 	}
 };
 #endif
