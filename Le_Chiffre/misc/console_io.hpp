@@ -115,7 +115,7 @@ public:
         SetConsoleCursorPosition(screen_buffer, coords);
     }
 
-    void initial_output(hacks_coords* coords, Internalisation* i) {
+    void initial_output(hacks_coords* coords, Internalisation* i, hacks_state* state) {
         clear();
 
         char* nl = XorStr("\n  ");
@@ -135,11 +135,11 @@ public:
 
         wcout << nl << i->translate(XorStr("connected_csgo")) << cl;
         coords->process = get_cursor_position();
-        write_str(no, FOREGROUND_RED);
+        write_str(state->process ? yes : no, state->process ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("connected_game")) << cl;
         coords->game = get_cursor_position();
-        write_str(no, FOREGROUND_RED);
+        write_str(state->game ? yes : no, state->game ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("version")) << cl;
         coords->version = get_cursor_position();
@@ -152,19 +152,19 @@ public:
         wcout << XorStr("\n\n") << i->translate(XorStr("cheat_functions")) << cl;
         wcout << nl << i->translate(XorStr("bunny_hop")) << cl;
         coords->bunny_hop = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->bunny_hop ? yes : no, state->bunny_hop ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("no_flash")) << cl;
         coords->no_flash = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->no_flash ? yes : no, state->no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("aimbot")) << cl;
         coords->aimbot = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->aimbot ? yes : no, state->aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("triggerbot")) << cl;
         coords->activate_trigger = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->activate_trigger ? yes : no, state->activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("use_triggerbot")) << cl;
         coords->use_trigger = get_cursor_position();
@@ -172,11 +172,11 @@ public:
 
         wcout << nl << i->translate(XorStr("glowesp")) << cl;
         coords->enemy_wh = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->enemy_wh ? yes : no, state->enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("radar_hack")) << cl;
         coords->radar_hack = get_cursor_position();
-        write_str(off, FOREGROUND_RED);
+        write_str(state->radar_hack ? yes : no, state->radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
 
         wcout << nl << i->translate(XorStr("exit")) << cl;
         write_str(i->translate(XorStr("press")), FOREGROUND_GREEN | FOREGROUND_RED);
