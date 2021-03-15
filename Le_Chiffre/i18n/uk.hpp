@@ -1,4 +1,4 @@
-#ifndef INTERNALISATION_UK_HPP
+п»ї#ifndef INTERNALISATION_UK_HPP
 #define INTERNALISATION_UK_HPP
 #pragma once
 #include <map>
@@ -8,33 +8,33 @@
 
 namespace i18n {
 	std::map<std::string, std::wstring> uk {
-		{XorStr("on"), XorStrW(L"УВІМК")},
-		{XorStr("off"), XorStrW(L"ВИМК")},
-		{XorStr("yes"), XorStrW(L"ТАК")},
-		{XorStr("no"), XorStrW(L"НІ")},
-		{XorStr("loading"), XorStrW(L"ЗАВАНТАЖЕННЯ")},
-		{XorStr("outdated"), XorStrW(L"УСТАРІВША")},
-		{XorStr("latest"), XorStrW(L"ОСТАННЯ")},
-		{XorStr("error"), XorStrW(L"ПОМИЛКА")},
-		{XorStr("hold"), XorStrW(L"УТРИМУВАТИ")},
-		{XorStr("press"), XorStrW(L"НАТИСНУТИ")},
-		{XorStr("waiting"), XorStrW(L"ОЧІКУВАННЯ")},
-		{XorStr("connecting"), XorStrW(L"ПІДКЛЮЧЕННЯ")},
-		{XorStr("website"), XorStrW(L"Офіційний вебсайт: https://lechiffre.now.sh")},
-		{XorStr("state"), XorStrW(L"Стан")},
-		{XorStr("language"), XorStrW(L"Мова (F1)")},
-		{XorStr("connected_csgo"), XorStrW(L"Підключено до CS:GO")},
-		{XorStr("connected_game"), XorStrW(L"Підключено до матчу")},
-		{XorStr("version"), XorStrW(L"Версія")},
-		{XorStr("cheat_functions"), XorStrW(L"Функції чіту")},
-		{XorStr("bunny_hop"), XorStrW(L"Банні-хоп (F2)")},
-		{XorStr("no_flash"), XorStrW(L"Анти-світлошумові гранати (F3)")},
-		{XorStr("aimbot"), XorStrW(L"Аімбот (F4)")},
-		{XorStr("triggerbot"), XorStrW(L"Активувати тригер бот (F6)")},
-		{XorStr("use_triggerbot"), XorStrW(L"Використовувати тригер бот (LAlt)")},
-		{XorStr("glowesp"), XorStrW(L"ВХ (F8)")},
-		{XorStr("radar_hack"), XorStrW(L"Радар хак (F9)")},
-		{XorStr("exit"), XorStrW(L"Екстренний вихід (END)")}
+		{XorStr("on"), XorStrW(L"РЈР’Р†РњРљ")},
+		{XorStr("off"), XorStrW(L"Р’РРњРљ")},
+		{XorStr("yes"), XorStrW(L"РўРђРљ")},
+		{XorStr("no"), XorStrW(L"РќР†")},
+		{XorStr("loading"), XorStrW(L"Р—РђР’РђРќРўРђР–Р•РќРќРЇ")},
+		{XorStr("outdated"), XorStrW(L"РЈРЎРўРђР Р†Р’РЁРђ")},
+		{XorStr("latest"), XorStrW(L"РћРЎРўРђРќРќРЇ")},
+		{XorStr("error"), XorStrW(L"РџРћРњРР›РљРђ")},
+		{XorStr("hold"), XorStrW(L"РЈРўР РРњРЈР’РђРўР")},
+		{XorStr("press"), XorStrW(L"РќРђРўРРЎРќРЈРўР")},
+		{XorStr("waiting"), XorStrW(L"РћР§Р†РљРЈР’РђРќРќРЇ")},
+		{XorStr("connecting"), XorStrW(L"РџР†Р”РљР›Р®Р§Р•РќРќРЇ")},
+		{XorStr("website"), XorStrW(L"РћС„С–С†С–Р№РЅРёР№ РІРµР±СЃР°Р№С‚: https://lechiffre.now.sh")},
+		{XorStr("state"), XorStrW(L"РЎС‚Р°РЅ")},
+		{XorStr("language"), XorStrW(L"РњРѕРІР° (F1)")},
+		{XorStr("connected_csgo"), XorStrW(L"РџС–РґРєР»СЋС‡РµРЅРѕ РґРѕ CS:GO")},
+		{XorStr("connected_game"), XorStrW(L"РџС–РґРєР»СЋС‡РµРЅРѕ РґРѕ РјР°С‚С‡Сѓ")},
+		{XorStr("version"), XorStrW(L"Р’РµСЂСЃС–СЏ")},
+		{XorStr("cheat_functions"), XorStrW(L"Р¤СѓРЅРєС†С–С— С‡С–С‚Сѓ")},
+		{XorStr("bunny_hop"), XorStrW(L"Р‘Р°РЅРЅС–-С…РѕРї (F2)")},
+		{XorStr("no_flash"), XorStrW(L"РђРЅС‚Рё-СЃРІС–С‚Р»РѕС€СѓРјРѕРІС– РіСЂР°РЅР°С‚Рё (F3)")},
+		{XorStr("aimbot"), XorStrW(L"РђС–РјР±РѕС‚ (F4)")},
+		{XorStr("triggerbot"), XorStrW(L"РђРєС‚РёРІСѓРІР°С‚Рё С‚СЂРёРіРµСЂ Р±РѕС‚ (F6)")},
+		{XorStr("use_triggerbot"), XorStrW(L"Р’РёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С‚СЂРёРіРµСЂ Р±РѕС‚ (LAlt)")},
+		{XorStr("glowesp"), XorStrW(L"Р’РҐ (F8)")},
+		{XorStr("radar_hack"), XorStrW(L"Р Р°РґР°СЂ С…Р°Рє (F9)")},
+		{XorStr("exit"), XorStrW(L"Р•РєСЃС‚СЂРµРЅРЅРёР№ РІРёС…С–Рґ (END)")}
 	};
 }
 #endif // INTERNALISATION_UK_HPP
