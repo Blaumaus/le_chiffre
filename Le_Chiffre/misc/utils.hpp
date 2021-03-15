@@ -5,6 +5,7 @@
 #include "web_utils.hpp"
 #include "console_io.hpp"
 #include <iostream>
+#include <string>
 
 // Manually gets the value of a key from a JSON string 
 // Sorry about that, but I just don't want to import a JSON parsing library only because of one simple task
@@ -43,5 +44,23 @@ std::pair<bool, bool> is_latest() {
 
 	if (ver == "ERROR") return std::make_pair(true, false);
 	return std::make_pair(false, ver == CHEAT_VERSION);
+}
+
+std::string get_user_localisation() {
+	wchar_t lpLocaleName[LOCALE_NAME_MAX_LENGTH] = { 0 };
+	
+	if (GetUserDefaultLocaleName(lpLocaleName, LOCALE_NAME_MAX_LENGTH) != 0) {
+		std::wstring lang = std::wstring(lpLocaleName).substr(0, 2);
+
+		if (lang == L"uk") return XorStr("UK");
+		if (lang == L"ru") return XorStr("RU");
+		//if (lang == L"zh") return XorStr("ZH");
+		//if (lang == L"pl") return XorStr("PL");
+		//if (lang == L"fr") return XorStr("FR");
+		//if (lang == L"tr") return XorStr("TR");
+	}
+
+
+	return XorStr("EN");
 }
 #endif // !UTILS_HPP

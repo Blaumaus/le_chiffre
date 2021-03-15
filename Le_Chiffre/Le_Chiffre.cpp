@@ -20,30 +20,15 @@ using std::cout;
 using std::endl;
 using namespace i18n;
 
-struct hacks_state {
-    bool no_flash = false;
-    bool activate_trigger = false;
-    bool use_trigger = false;
-    bool enemy_wh = false;
-    bool radar_hack = false;
-    bool bunny_hop = false;
-    bool aimbot = false;
-};
-
-void language_switcher(ConsoleIO* io, hacks_coords* coords, Internalisation* i) {
+void language_switcher(ConsoleIO* io, hacks_coords* coords, Internalisation* i, hacks_state* state) {
     while (true) { // Language - F1
         if (GetAsyncKeyState(VK_F1)) {
             i->switch_language();
-            io->initial_output(coords, i);
+            io->initial_output(coords, i, state);
             Sleep(250);
         }
         Sleep(5);
     }
-}
-
-std::string get_user_localisation() {
-    // TODO: Get user default localisation by WinAPI
-    return "EN";
 }
 
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -56,31 +41,30 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     Internalisation i;
     hacks_coords coords;
     hacks_state state;
-    bool pHandle = false, game = false;
     int connect_count = 0;
 
-    std::thread language_thread(language_switcher, &io, &coords, &i);
+    i.switch_language(get_user_localisation());
+    io.initial_output(&coords, &i, &state);
+
+    std::thread language_thread(language_switcher, &io, &coords, &i, &state);
     language_thread.detach();
 
     // Overlay ol(&mem);
     // ol.static_start(&ol);
     // HANDLE overlay = CreateThread(NULL, NULL, &ol.static_start, (void*)&ol, NULL, NULL);
     // std::thread t(ol.start);
-    
-    i.switch_language(get_user_localisation());
-    io.initial_output(&coords, &i);
 
     while (true) {
         while (mem.tProcess != NULL && mem.clientBaseAddr != NULL && mem.engineBaseAddr != NULL) {
-            if (!pHandle) {
-                pHandle = true;
+            if (!state.process) {
+                state.process = true;
                 io.set_cursor_position(coords.process);
                 io.write_str(i.translate(XorStr("yes")), FOREGROUND_GREEN);
             }
 
             while (client.in_game()) {
-                if (!game) {
-                    game = true;
+                if (!state.game) {
+                    state.game = true;
                     io.set_cursor_position(coords.game);
                     io.write_str(i.translate(XorStr("yes")), FOREGROUND_GREEN);
                     client.update_gamemode();
@@ -173,14 +157,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
                 Sleep(2);
             }
 
-            game = false;
+            state.game = false;
             hacks.bsp_setted = false;
             io.set_cursor_position(coords.game);
             io.write_str(i.translate(XorStr("waiting")), FOREGROUND_GREEN | FOREGROUND_RED);
             Sleep(5000);
         }
 
-        pHandle = false;
+        state.process = false;
         io.set_cursor_position(coords.process);
         io.write_str(i.translate(XorStr("connecting")), FOREGROUND_GREEN | FOREGROUND_RED);
         ++connect_count;
