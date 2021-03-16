@@ -123,7 +123,7 @@ public:
 
 		for (short i = 0; i < 32; ++i) {
 			PlayerEntity target(memory, memory->read_mem<DWORD>(memory->clientBaseAddr + signatures::dwEntityList + (short)0x10 * i));
-			
+
 			if (target.valid_player()) {
 				if (dangerzone && glow_on_enemy) { // TODO: Add team glow for teammates dangerzone mode
 					_enemy_glow(&target, glow_obj);
@@ -133,7 +133,7 @@ public:
 				int target_team = target.get_team();
 
 				if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
-				
+
 				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);
 			}
 		}
@@ -161,7 +161,8 @@ public:
 		if (target.valid_player()) {
 			client->set_sensitivity(0.f);
 			player.aim_at(target.get_bone_position(8));
-		} else client->reset_sensitivity();
+		}
+		else client->reset_sensitivity();
 	}
 
 	void bunny_hop() {

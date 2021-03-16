@@ -120,13 +120,13 @@ public:
 
 	// FL_ONGROUND   (1 << 0) on the ground
 	// FL_DUCKING    (1 << 1) fully crouched
-    // FL_WATERJUMP  (1 << 2) jumping out of water
-    // FL_ONTRAIN    (1 << 3) _controlling_ a train
-    // FL_INRAIN     (1 << 4) standing in rain
-    // FL_FROZEN     (1 << 5) frozen
-    // FL_ATCONTROLS (1 << 6) can't move
-    // FL_CLIENT     (1 << 7) player
-    // FL_FAKECLIENT (1 << 8) fake client
+	// FL_WATERJUMP  (1 << 2) jumping out of water
+	// FL_ONTRAIN    (1 << 3) _controlling_ a train
+	// FL_INRAIN     (1 << 4) standing in rain
+	// FL_FROZEN     (1 << 5) frozen
+	// FL_ATCONTROLS (1 << 6) can't move
+	// FL_CLIENT     (1 << 7) player
+	// FL_FAKECLIENT (1 << 8) fake client
 	// FL_INWATER    (1 << 9) in water
 	inline BYTE get_flags() {
 		return memory->read_mem<BYTE>(playerBaseAddr + netvars::m_fFlags);
@@ -161,7 +161,7 @@ public:
 
 	// player's x, y, z eyes position
 	inline coords_vector get_view_offset() {
-		return memory->read_mem<coords_vector>(playerBaseAddr + netvars::m_vecViewOffset); 
+		return memory->read_mem<coords_vector>(playerBaseAddr + netvars::m_vecViewOffset);
 	}
 
 	// player's x, y, z bone position

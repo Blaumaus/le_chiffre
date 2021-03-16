@@ -6,7 +6,7 @@
 
 namespace {
 	// Config
-	const ::std::string CHEAT_VERSION = XorStr("v1.1.7");
+	const ::std::string CHEAT_VERSION = XorStr("v1.2.0");
 	const wchar_t* HOST = L"api.github.com";
 	const wchar_t* PATH = L"/repos/blaumaus/le_chiffre/tags?per_page=1";
 	const wchar_t* TARGET = L"csgo.exe";
