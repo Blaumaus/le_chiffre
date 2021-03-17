@@ -16,7 +16,7 @@ std::string json_parse_string(std::string data, std::string key) {
 	bool key_found = false;
 
 	for (char const& c : data) {
-		if (c == '"') {
+		if (c == *XorStr("\"")) {
 			if (!quote_opened) quote_opened = true;
 			else {
 				if (key_found) return buffer;
@@ -35,32 +35,14 @@ std::string json_parse_string(std::string data, std::string key) {
 std::string get_latest_version() {
 	std::string json = web::get(HOST, PATH);
 
-	return json != "ERROR" ? json_parse_string(json, "name") : "ERROR";
+	return json != XorStr("ERROR") ? json_parse_string(json, XorStr("name")) : XorStr("ERROR");
 }
 
 // {ERROR, LATEST}
 std::pair<bool, bool> is_latest() {
 	std::string ver = get_latest_version();
 
-	if (ver == "ERROR") return std::make_pair(true, false);
+	if (ver == XorStr("ERROR")) return std::make_pair(true, false);
 	return std::make_pair(false, ver == CHEAT_VERSION);
-}
-
-std::string get_user_localisation() {
-	wchar_t lpLocaleName[LOCALE_NAME_MAX_LENGTH] = { 0 };
-	
-	if (GetUserDefaultLocaleName(lpLocaleName, LOCALE_NAME_MAX_LENGTH) != 0) {
-		std::wstring lang = std::wstring(lpLocaleName).substr(0, 2);
-
-		if (lang == L"uk") return XorStr("UK");
-		if (lang == L"ru") return XorStr("RU");
-		//if (lang == L"zh") return XorStr("ZH");
-		//if (lang == L"pl") return XorStr("PL");
-		//if (lang == L"fr") return XorStr("FR");
-		//if (lang == L"tr") return XorStr("TR");
-	}
-
-
-	return XorStr("EN");
 }
 #endif // !UTILS_HPP

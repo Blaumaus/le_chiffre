@@ -3,6 +3,7 @@
 #pragma once
 #include <iostream>
 #include <winhttp.h>
+#include "xor.hpp"
 #pragma comment(lib, "winhttp.lib")
 
 // TODO: Refactor code
@@ -11,7 +12,7 @@ namespace web {
 	// Returns a result or "ERROR" if status code != 200 or if something else went wrong
 	std::string get(const wchar_t* host, const wchar_t* path, INTERNET_PORT port = INTERNET_DEFAULT_HTTPS_PORT) {
 		HINTERNET hSession = NULL, hConnect = NULL, hRequest = NULL;
-		std::string res = "ERROR";
+		std::string res = XorStr("ERROR");
 
 		hSession = WinHttpOpen(L"WinHTTP/1.0", WINHTTP_ACCESS_TYPE_NO_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
 

@@ -125,7 +125,7 @@ public:
         wstring yes = i->translate(XorStr("yes"));
         wstring no = i->translate(XorStr("no"));
 
-        wcout << XorStr("Le Chiffre ") << stringToWstring(CHEAT_VERSION) << XorStr(" [16 Mar, 2021]") << endl << endl;
+        wcout << XorStr("Le Chiffre ") << stringToWstring(CHEAT_VERSION) << ' ' << stringToWstring(RELEASE_DATE) << endl << endl;
         wcout << i->translate(XorStr("website")) << endl << endl;
 
         wcout << i->translate(XorStr("state")) << cl;
