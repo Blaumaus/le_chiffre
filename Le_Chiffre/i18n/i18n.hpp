@@ -1,13 +1,16 @@
 #ifndef INTERNALISATION_HPP
 #define INTERNALISATION_HPP
 #pragma once
+#include <Windows.h>
 #include <string>
 #include <map>
 #include <vector>
 
 #include "en.hpp"
-#include "ru.hpp"
 #include "uk.hpp"
+#include "ru.hpp"
+#include "tr.hpp"
+#include "pl.hpp"
 
 namespace i18n {
 	using std::string;
@@ -15,10 +18,30 @@ namespace i18n {
 	using std::vector;
 	using std::map;
 
+	std::string get_user_localisation() {
+		wchar_t lpLocaleName[LOCALE_NAME_MAX_LENGTH] = { 0 };
+
+		if (GetUserDefaultLocaleName(lpLocaleName, LOCALE_NAME_MAX_LENGTH) != 0) {
+			std::wstring lang = std::wstring(lpLocaleName).substr(0, 2);
+
+			if (lang == L"uk") return XorStr("UK");
+			if (lang == L"ru") return XorStr("RU");
+			if (lang == L"tr") return XorStr("TR");
+			if (lang == L"pl") return XorStr("PL");
+			//if (lang == L"zh") return XorStr("ZH");
+			//if (lang == L"fr") return XorStr("FR");
+		}
+
+
+		return XorStr("EN");
+	}
+
 	map<std::string, map<string, wstring>> t {
 		{ XorStr("EN"), en },
 		{ XorStr("UK"), uk },
 		{ XorStr("RU"), ru },
+		{ XorStr("TR"), tr },
+		{ XorStr("PL"), pl },
 	};
 
 	class Internalisation {
