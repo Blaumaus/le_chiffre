@@ -95,5 +95,8 @@
     <ClInclude Include="i18n\pl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="i18n\zh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
