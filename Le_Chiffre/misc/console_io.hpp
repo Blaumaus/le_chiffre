@@ -120,10 +120,10 @@ public:
 
         char* nl = XorStr("\n  ");
         char* cl = XorStr(": ");
-        wstring on = i->translate(XorStr("on"));
-        wstring off = i->translate(XorStr("off"));
-        wstring yes = i->translate(XorStr("yes"));
-        wstring no = i->translate(XorStr("no"));
+        std::wstring on = i->translate(XorStr("on"));
+        std::wstring off = i->translate(XorStr("off"));
+        std::wstring yes = i->translate(XorStr("yes"));
+        std::wstring no = i->translate(XorStr("no"));
 
         wcout << XorStr("Le Chiffre ") << stringToWstring(CHEAT_VERSION) << ' ' << stringToWstring(RELEASE_DATE) << endl << endl;
         wcout << i->translate(XorStr("website")) << endl << endl;

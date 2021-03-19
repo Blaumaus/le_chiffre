@@ -1,30 +1,49 @@
 #ifndef INTERNALISATION_HPP
 #define INTERNALISATION_HPP
 #pragma once
+#include <Windows.h>
 #include <string>
 #include <map>
 #include <vector>
 
 #include "en.hpp"
 #include "uk.hpp"
+#include "ru.hpp"
+#include "tr.hpp"
+#include "pl.hpp"
+#include "zh.hpp"
 
 namespace i18n {
 	using std::string;
+	using std::wstring;
 	using std::vector;
 	using std::map;
 
-  // WinAPI function to retrieve user's locale, e.g. 'en' or 'uk'
 	std::string get_user_localisation() {
 		wchar_t lpLocaleName[LOCALE_NAME_MAX_LENGTH] = { 0 };
 
 		if (GetUserDefaultLocaleName(lpLocaleName, LOCALE_NAME_MAX_LENGTH) != 0) {
-			return std::wstring(lpLocaleName).substr(0, 2);
+			std::wstring lang = std::wstring(lpLocaleName).substr(0, 2);
+
+			if (lang == L"uk") return XorStr("UK");
+			if (lang == L"ru") return XorStr("RU");
+			if (lang == L"tr") return XorStr("TR");
+			if (lang == L"pl") return XorStr("PL");
+			if (lang == L"zh") return XorStr("ZH");
+			//if (lang == L"fr") return XorStr("FR");
 		}
+
+
+		return XorStr("EN");
 	}
 
-	map<std::string, map<string, wstring>> t {
-		{ "en", en },
-		{ "uk", uk },
+	map<std::string, map<string, wstring>> t{
+		{ XorStr("EN"), en },
+		{ XorStr("UK"), uk },
+		{ XorStr("RU"), ru },
+		{ XorStr("TR"), tr },
+		{ XorStr("PL"), pl },
+		{ XorStr("ZH"), zh },
 	};
 
 	class Internalisation {
@@ -55,7 +74,7 @@ namespace i18n {
 
 		// If a valid language code is provided, it switches current language into it,
 		// otherwise it switches the current language to the next language available
-		void switch_language (string code = "") {
+		void switch_language(string code = "") {
 			if (!code.empty()) {
 				for (auto it = available.begin(); it != available.end(); ++it) {
 					if (*it == code) {
@@ -70,7 +89,7 @@ namespace i18n {
 		}
 
 		// Returns the corresponding translation of 'key'
-		std::wstring translate (string key) {
+		std::wstring translate(string key) {
 			return t[*lang_it][key];
 		}
 	};
