@@ -54,6 +54,13 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     // HANDLE overlay = CreateThread(NULL, NULL, &ol.static_start, (void*)&ol, NULL, NULL);
     // std::thread t(ol.start);
 
+    std::thread trigger_bot_thread(&Hacks::thread_trigger_bot, &hacks, &state, &coords, &io, &i);
+    std::thread aimbot_thread(&Hacks::thread_aimbot, &hacks, &state, &coords, &io, &i);
+    std::thread glow_radar_thread(&Hacks::thread_glow_radar, &hacks, &state, &coords, &io, &i);
+    std::thread no_flash_thread(&Hacks::thread_no_flash, &hacks, &state, &coords, &io, &i);
+    std::thread bunny_hop_thread(&Hacks::thread_bunny_hop, &hacks, &state, &coords, &io, &i);
+    std::thread panic_mode_thread(&Hacks::thread_panic_mode, &hacks);
+
     while (true) {
         while (mem.tProcess != NULL && mem.clientBaseAddr != NULL && mem.engineBaseAddr != NULL) {
             if (!state.process) {
@@ -70,91 +77,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
                     client.update_gamemode();
                     hacks.init();
                 }
-
-                { // Language - F1
-                    bool f1 = GetAsyncKeyState(VK_F1);
-
-                    if (f1) {
-                        i.switch_language();
-
-                    }
-                }
-
-                { // Trigger bot - LAlt, F6
-                    bool f6 = GetKeyState(VK_F6) & 0x0001;
-                    bool lalt = GetAsyncKeyState(VK_LMENU);
-                    bool l_mouse = GetAsyncKeyState(VK_LBUTTON);
-
-                    if (f6 != state.activate_trigger) {
-                        state.activate_trigger = f6;
-                        io.set_cursor_position(coords.activate_trigger);
-                        io.write_str(state.activate_trigger ? i.translate(XorStr("on")) : i.translate(XorStr("off")), state.activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (state.activate_trigger && lalt && !l_mouse) hacks.trigger_bot(client.is_dangerzone());
-                }
-
-                {
-                    bool f4 = GetKeyState(VK_F4) & 0x0001; // Aimbot - F4
-
-                    if (f4 != state.aimbot) {
-                        state.aimbot = f4;
-                        io.set_cursor_position(coords.aimbot);
-                        io.write_str(state.aimbot ? i.translate(XorStr("on")) : i.translate(XorStr("off")), state.aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (state.aimbot) hacks.aim_bot();
-                    else client.reset_sensitivity();
-                }
-
-                { // Glow ESP - F8; Radar hack - F9
-                    bool f8 = GetKeyState(VK_F8) & 0x0001; // Enemy glow ESP
-                    bool f9 = GetKeyState(VK_F9) & 0x0001; // Radar hack
-
-                    if (f8 != state.enemy_wh) {
-                        state.enemy_wh = f8;
-                        io.set_cursor_position(coords.enemy_wh);
-                        io.write_str(state.enemy_wh ? i.translate(XorStr("on")) : i.translate(XorStr("off")), state.enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (f9 != state.radar_hack) {
-                        state.radar_hack = f9;
-                        io.set_cursor_position(coords.radar_hack);
-                        io.write_str(state.radar_hack ? i.translate(XorStr("on")) : i.translate(XorStr("off")), state.radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (state.enemy_wh || state.radar_hack) 
-                        hacks.glow_esp_radar(state.enemy_wh, state.radar_hack, client.is_dangerzone());
-                }
-
-                {
-                    bool f3 = GetKeyState(VK_F3) & 0x0001; // No flash - F3
-
-                    if (f3 != state.no_flash) {
-                        state.no_flash = f3;
-                        io.set_cursor_position(coords.no_flash);
-                        io.write_str(state.no_flash ? i.translate(XorStr("on")) : i.translate(XorStr("off")), state.no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (state.no_flash) hacks.no_flash();
-                }
-
-                {
-                    bool f2 = GetKeyState(VK_F2) & 0x0001; // Bunny hop - F2
-                    bool space = GetAsyncKeyState(VK_SPACE);
-
-                    if (f2 != state.bunny_hop) {
-                        state.bunny_hop = f2;
-                        io.set_cursor_position(coords.bunny_hop);
-                        io.write_str(f2 ? i.translate(XorStr("on")) : i.translate(XorStr("off")), f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    }
-
-                    if (state.bunny_hop && space) hacks.bunny_hop();
-                }
                 
                 // SendMessage(ol.hwnd, WM_PAINT, NULL, NULL);
-                hacks.panic_mode(); // closes cheat if triggered
-                Sleep(2);
+                Sleep(500);
             }
 
             state.game = false;
