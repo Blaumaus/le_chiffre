@@ -29,7 +29,11 @@ public:
 
 	// Client states: LOBBY = 1, LOADING = 2, CONNECTING = 3, CONNECTED = 5, INGAME = 6
 	bool in_game() {
-		return memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_State) == 6;
+		if (memory->tProcess != NULL && memory->clientBaseAddr != NULL && memory->engineBaseAddr != NULL) {
+			return memory->read_mem<DWORD>(_getClientState() + signatures::dwClientState_State) == 6;
+		}
+
+		return false;
 	}
 
 	bool is_dangerzone() {
