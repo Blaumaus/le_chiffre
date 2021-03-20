@@ -7,6 +7,8 @@
 #include "player_entity.hpp"
 #include "bsp_parser/valve-bsp-parser/bsp_parser.hpp"
 #include "bsp_parser/valve-bsp-parser/core/matrix.hpp"
+#include "misc/config.hpp"
+#include "misc/console_io.hpp"
 
 using namespace hazedumper;
 using namespace rn;
@@ -108,7 +110,13 @@ public:
 	}
 
 	void trigger_bot(bool dangerzone = false) {
-		if (_aim_on_enemy(&player, dangerzone)) player.set_attack_state(6);
+		if (_aim_on_enemy(&player, dangerzone)) {
+			// player.set_attack_state(6); // doesn't properly work on pistols
+
+			player.set_attack_state(5);
+			Sleep((rand() % 11) + 10); // 10-20 ms
+			player.set_attack_state(4);
+		}
 	}
 
 	void no_flash() {
@@ -169,8 +177,130 @@ public:
 		if (player.get_flags() & 1 << 0 && player.is_moving()) player.set_jump_state(6);
 	}
 
+	void preexit() {
+		client->reset_sensitivity();
+	}
+
 	void panic_mode() { // closes cheat when triggered
-		if (GetKeyState(VK_END) & 0x0001) ExitProcess(EXIT_SUCCESS);
+		if (GetKeyState(VK_END) & 0x0001) {
+			preexit();
+			ExitProcess(EXIT_SUCCESS);
+		};
+	}
+
+	// Thread methods:
+	void thread_trigger_bot(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Trigger bot - LAlt, F6
+		while (true) {
+			if (state->game) {
+				bool f6 = GetKeyState(VK_F6) & 0x0001;
+				bool lalt = GetAsyncKeyState(VK_LMENU);
+				bool l_mouse = GetAsyncKeyState(VK_LBUTTON);
+
+				if (f6 != state->activate_trigger) {
+					state->activate_trigger = f6;
+					io->set_cursor_position(coords->activate_trigger);
+					io->write_str(state->activate_trigger ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (state->activate_trigger && lalt && !l_mouse) trigger_bot(client->is_dangerzone());
+			}
+			else Sleep(1000);
+
+			Sleep(2);
+		}
+	}
+
+	void thread_aimbot(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Aimbot - F4
+		while (true) {
+			if (state->game) {
+				bool f4 = GetKeyState(VK_F4) & 0x0001;
+
+				if (f4 != state->aimbot) {
+					state->aimbot = f4;
+					io->set_cursor_position(coords->aimbot);
+					io->write_str(state->aimbot ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (state->aimbot) aim_bot();
+				else client->reset_sensitivity();
+			}
+			else Sleep(1000);
+
+			Sleep(2);
+		}
+	}
+
+	void thread_glow_radar(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Glow ESP - F8; Radar hack - F9
+		while (true) {
+			if (state->game) {
+				bool f8 = GetKeyState(VK_F8) & 0x0001; // Enemy glow ESP
+				bool f9 = GetKeyState(VK_F9) & 0x0001; // Radar hack
+
+				if (f8 != state->enemy_wh) {
+					state->enemy_wh = f8;
+					io->set_cursor_position(coords->enemy_wh);
+					io->write_str(state->enemy_wh ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (f9 != state->radar_hack) {
+					state->radar_hack = f9;
+					io->set_cursor_position(coords->radar_hack);
+					io->write_str(state->radar_hack ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (state->enemy_wh || state->radar_hack)
+					glow_esp_radar(state->enemy_wh, state->radar_hack, client->is_dangerzone());
+			}
+			else Sleep(1000);
+
+			Sleep(1);
+		}
+	}
+
+	void thread_no_flash(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // No flash - F3
+		while (true) {
+			if (state->game) {
+				bool f3 = GetKeyState(VK_F3) & 0x0001;
+
+				if (f3 != state->no_flash) {
+					state->no_flash = f3;
+					io->set_cursor_position(coords->no_flash);
+					io->write_str(state->no_flash ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (state->no_flash) no_flash();
+			}
+			else Sleep(1000);
+
+			Sleep(2);
+		}
+	}
+
+	void thread_bunny_hop(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Bunny hop - F2
+		while (true) {
+			if (state->game) {
+				bool f2 = GetKeyState(VK_F2) & 0x0001;
+				bool space = GetAsyncKeyState(VK_SPACE);
+
+				if (f2 != state->bunny_hop) {
+					state->bunny_hop = f2;
+					io->set_cursor_position(coords->bunny_hop);
+					io->write_str(f2 ? i->translate(XorStr("on")) : i->translate(XorStr("off")), f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
+				}
+
+				if (state->bunny_hop && space) bunny_hop();
+			}
+			else Sleep(1000);
+
+			Sleep(2);
+		}
+	}
+
+	void thread_panic_mode() {
+		while (true) {
+			panic_mode();
+			Sleep(1);
+		}
 	}
 
 	Hacks(Memory* memory, Client* client) {
