@@ -203,6 +203,7 @@
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\requirements.hpp" />
     <ClInclude Include="bsp_parser\valve-bsp-parser\core\valve_structs.hpp" />
     <ClInclude Include="i18n\en.hpp" />
+    <ClInclude Include="i18n\fr.hpp" />
     <ClInclude Include="i18n\i18n.hpp" />
     <ClInclude Include="i18n\pl.hpp" />
     <ClInclude Include="i18n\ru.hpp" />
