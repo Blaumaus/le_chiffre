@@ -21,7 +21,7 @@ namespace i18n {
 		{XorStr("waiting"), XorStrW(L"等候")},
 		{XorStr("connecting"), XorStrW(L"连接")},
 		{XorStr("website"), XorStrW(L"官方网站: https://lechiffre.now.sh")},
-		{XorStr("state"), XorStrW(L"State")},
+		{XorStr("state"), XorStrW(L"状况")},
 		{XorStr("language"), XorStrW(L"语种 (F1)")},
 		{XorStr("connected_csgo"), XorStrW(L"连接的到CS:GO进程")},
 		{XorStr("connected_game"), XorStrW(L"已连接到活动游戏")},
