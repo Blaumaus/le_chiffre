@@ -25,6 +25,7 @@ private:
     FILE* fp;
     // {defined, {error, latest}}; todo: use std::optional
     std::pair<bool, std::pair<bool, bool>> latest;
+    wchar_t* current_font = (wchar_t*)L"Consolas";
 
     // adjusts window to desired width and height
     void _set_window() { // https://stackoverflow.com/a/40634467
@@ -72,6 +73,44 @@ private:
         std::wstring wstr(str.begin(), str.end());
         return wstr;
     }
+    
+    bool fix_font() {
+        CONSOLE_FONT_INFOEX cfi;
+        cfi.cbSize = sizeof(cfi);
+        cfi.dwFontSize.X = 8;
+        cfi.dwFontSize.Y = 16;
+        cfi.FontFamily = FF_DONTCARE;
+        cfi.FontWeight = FW_NORMAL;
+        std::wcscpy(cfi.FaceName, L"Consolas");
+
+        return SetCurrentConsoleFontEx(screen_buffer, FALSE, &cfi) == TRUE;
+    }
+
+    void fix_font(Internalisation* i) {
+        CONSOLE_FONT_INFOEX cfi;
+        cfi.cbSize = sizeof(cfi);
+        cfi.dwFontSize.X = 8;
+        cfi.dwFontSize.Y = 16;
+        cfi.FontFamily = FF_DONTCARE;
+        cfi.FontWeight = FW_NORMAL;
+
+        if (i->get_lang() == XorStr("ZH")) {
+            const wchar_t* font = L"MS Gothic";
+            std::wcscpy(cfi.FaceName, font);
+            if (SetCurrentConsoleFontEx(screen_buffer, FALSE, &cfi) == FALSE) {
+                i->switch_language();
+            }
+            else {
+                current_font = (wchar_t*)font;
+            }
+        }
+        else if (current_font != L"Consolas") {
+            std::wcscpy(cfi.FaceName, L"Consolas");
+            if (SetCurrentConsoleFontEx(screen_buffer, FALSE, &cfi) == TRUE) {
+                current_font = (wchar_t*)L"Consolas";
+            }
+        }
+    }
 
 public:
     ConsoleIO() {
@@ -87,6 +126,7 @@ public:
         SetConsoleOutputCP(CP_UTF8);
         SetConsoleCP(CP_UTF8);
         latest = std::make_pair(false, std::make_pair(false, false));
+        fix_font();
     }
 
     ~ConsoleIO() {
@@ -117,6 +157,7 @@ public:
 
     void initial_output(hacks_coords* coords, Internalisation* i, hacks_state* state) {
         clear();
+        fix_font(i);
 
         char* nl = XorStr("\n  ");
         char* cl = XorStr(": ");
