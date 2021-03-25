@@ -6,8 +6,8 @@
 
 namespace {
 	// Config
-	const ::std::string CHEAT_VERSION = XorStr("v1.2.2");
-	const ::std::string RELEASE_DATE = XorStr("[19 Mar, 2021]");
+	const ::std::string CHEAT_VERSION = XorStr("v1.2.3");
+	const ::std::string RELEASE_DATE = XorStr("[25 Mar, 2021]");
 	const wchar_t* HOST = L"api.github.com";
 	const wchar_t* PATH = L"/repos/blaumaus/le_chiffre/tags?per_page=1";
 	const wchar_t* TARGET = L"csgo.exe";
