@@ -13,6 +13,7 @@
 #include "pl.hpp"
 #include "zh.hpp"
 #include "fr.hpp"
+#include "hu.hpp"
 
 namespace i18n {
 	using std::string;
@@ -32,6 +33,7 @@ namespace i18n {
 			if (lang == L"pl") return XorStr("PL");
 			if (lang == L"zh") return XorStr("ZH");
 			if (lang == L"fr") return XorStr("FR");
+			if (lang == L"hu") return XorStr("HU");
 		}
 
 
@@ -46,6 +48,7 @@ namespace i18n {
 		{ XorStr("PL"), pl },
 		{ XorStr("ZH"), zh },
 		{ XorStr("FR"), fr },
+		{ XorStr("HU"), hu },
 	};
 
 	class Internalisation {
