@@ -101,5 +101,8 @@
     <ClInclude Include="i18n\fr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="i18n\hu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

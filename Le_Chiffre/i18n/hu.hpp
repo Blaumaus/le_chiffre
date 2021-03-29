@@ -1,4 +1,4 @@
-#ifndef INTERNALISATION_HU_HPP
+﻿#ifndef INTERNALISATION_HU_HPP
 #define INTERNALISATION_HU_HPP
 #pragma once
 #include <map>
@@ -7,7 +7,7 @@
 #include "../misc/xor.hpp"
 
 namespace i18n {
-	std::map<std::string, std::wstring> hu {
+	std::map<std::string, std::wstring> hu{
 		{XorStr("on"), XorStrW(L"ON")},
 		{XorStr("off"), XorStrW(L"OFF")},
 		{XorStr("yes"), XorStrW(L"IGEN")},
