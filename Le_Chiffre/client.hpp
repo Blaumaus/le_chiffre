@@ -67,7 +67,9 @@ public:
 	}
 
 	void reset_sensitivity() {
-		set_sensitivity(this->def_sensinivity);
+		if (memory->tProcess != NULL && memory->clientBaseAddr != NULL && memory->engineBaseAddr != NULL) {
+			set_sensitivity(this->def_sensinivity);
+		}
 	}
 
 	const char* get_map_dir() {

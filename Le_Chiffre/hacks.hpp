@@ -48,11 +48,11 @@ private:
 		return dangerzone || player->get_team() != enemy.get_team();
 	}
 
-	void _enemy_glow(PlayerEntity* target, DWORD glow_obj) {
+	void _enemy_glow(PlayerEntity* target, DWORD glow_obj, float div = 0.f) {
 		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
-		gt.red = 1.0f;
-		gt.green = 0;
-		gt.blue = 0;
+		gt.red = 1.0f - div / 2.f;
+		gt.green = div;
+		gt.blue = 0.f;
 		gt.alpha = 0.9f;
 		gt.redner_occluded = true;
 		gt.render_unoccluded = false;
@@ -140,7 +140,10 @@ public:
 
 				int target_team = target.get_team();
 
-				if (player_team != target_team && glow_on_enemy) _enemy_glow(&target, glow_obj);
+				if (player_team != target_team && glow_on_enemy) {
+					float div = target.get_health() / 100.f;
+					_enemy_glow(&target, glow_obj, div);
+				}
 
 				if (player_team != target_team && radar_hack && !target.is_spotted()) target.set_spotted(true);
 			}
