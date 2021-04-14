@@ -20,7 +20,7 @@ namespace i18n {
 		{XorStr("press"), XorStrW(L"НАТИСНУТИ")},
 		{XorStr("waiting"), XorStrW(L"ОЧІКУВАННЯ")},
 		{XorStr("connecting"), XorStrW(L"ПІДКЛЮЧЕННЯ")},
-		{XorStr("website"), XorStrW(L"Офіційний вебсайт: https://lechiffre.now.sh")},
+		{XorStr("website"), XorStrW(L"Офіційний вебсайт: https://lechiffre.vercel.app")},
 		{XorStr("state"), XorStrW(L"Стан")},
 		{XorStr("language"), XorStrW(L"Мова (F1)")},
 		{XorStr("connected_csgo"), XorStrW(L"Підключено до CS:GO")},
