@@ -173,14 +173,32 @@ public:
 		
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			
 			PlayerEntity target = _get_closest_enemy();
+			
 			if (target.valid_player()) {
 				client->set_sensitivity(0.f);
 				player.aim_at(target.get_bone_position(8));
+				Sleep(1);
+				client->reset_sensitivity();
+				player.aim_at(target.get_bone_position(7));
+				Sleep(1);
+				client->reset_sensitivity();
+				player.aim_at(target.get_bone_position(8));
+				Sleep(3);
+				client->reset_sensitivity();
+				player.aim_at(target.get_bone_position(7));
+				Sleep(2);
+				client->reset_sensitivity();
+				player.aim_at(target.get_bone_position(7));
+				Sleep(2);
+				client->reset_sensitivity();
+				player.aim_at(target.get_bone_position(8));
+				Sleep(1);
+				client->reset_sensitivity();
 			}
-			else client->reset_sensitivity();
+			
 		}
+		else client->reset_sensitivity();
 	}
 
 	void bunny_hop() {
