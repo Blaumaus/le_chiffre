@@ -10,6 +10,7 @@
 #include "misc/config.hpp"
 #include "misc/console_io.hpp"
 
+
 using namespace hazedumper;
 using namespace rn;
 
@@ -152,7 +153,9 @@ public:
 		Sleep(5);
 	}
 
-	/* void get_spectators() {
+	
+
+	 void get_spectators() {
 		int player_team = player.get_team();
 
 		for (short i = 0; i < 32; ++i) {
@@ -164,16 +167,20 @@ public:
 
 			}
 		}
-	} */
+	} 
 
 	void aim_bot() {
-		PlayerEntity target = _get_closest_enemy();
-
-		if (target.valid_player()) {
-			client->set_sensitivity(0.f);
-			player.aim_at(target.get_bone_position(8));
+		
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			
+			PlayerEntity target = _get_closest_enemy();
+			if (target.valid_player()) {
+				client->set_sensitivity(0.f);
+				player.aim_at(target.get_bone_position(8));
+			}
+			else client->reset_sensitivity();
 		}
-		else client->reset_sensitivity();
 	}
 
 	void bunny_hop() {
@@ -305,6 +312,8 @@ public:
 			Sleep(1);
 		}
 	}
+
+	
 
 	Hacks(Memory* memory, Client* client) {
 		this->memory = memory;
