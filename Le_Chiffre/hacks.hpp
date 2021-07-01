@@ -10,7 +10,6 @@
 #include "misc/config.hpp"
 #include "misc/console_io.hpp"
 
-
 using namespace hazedumper;
 using namespace rn;
 
@@ -153,9 +152,7 @@ public:
 		Sleep(5);
 	}
 
-	
-
-	 void get_spectators() {
+	/* void get_spectators() {
 		int player_team = player.get_team();
 
 		for (short i = 0; i < 32; ++i) {
@@ -167,38 +164,32 @@ public:
 
 			}
 		}
-	} 
+	} */
 
 	void aim_bot() {
 		
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			PlayerEntity target = _get_closest_enemy();
 			
+			PlayerEntity target = _get_closest_enemy();
+
 			if (target.valid_player()) {
+				player.set_attack_state(4);
 				client->set_sensitivity(0.f);
 				player.aim_at(target.get_bone_position(8));
-				Sleep(1);
-				client->reset_sensitivity();
-				player.aim_at(target.get_bone_position(7));
-				Sleep(1);
-				client->reset_sensitivity();
-				player.aim_at(target.get_bone_position(8));
-				Sleep(3);
-				client->reset_sensitivity();
-				player.aim_at(target.get_bone_position(7));
-				Sleep(2);
-				client->reset_sensitivity();
-				player.aim_at(target.get_bone_position(7));
-				Sleep(2);
-				client->reset_sensitivity();
-				player.aim_at(target.get_bone_position(8));
-				Sleep(1);
-				client->reset_sensitivity();
+				Sleep(5);
+				player.set_attack_state(5);
+				Sleep((rand() % 11) + 10); // 10-20 ms
+				player.set_attack_state(4);
+				client->reset_sensitivity();//In fact, the entire aiming and shooting process will be completed within 2 ticks (for a 64tick server), which has almost no effect on the rate of fire
+				
 			}
-			
+			else client->reset_sensitivity();
+			//The side effect is that the thrown object will be thrown immediately, even directly facing the visible enemy.	
+
 		}
 		else client->reset_sensitivity();
+	
 	}
 
 	void bunny_hop() {
@@ -263,17 +254,20 @@ public:
 			if (state->game) {
 				bool f8 = GetKeyState(VK_F8) & 0x0001; // Enemy glow ESP
 				bool f9 = GetKeyState(VK_F9) & 0x0001; // Radar hack
-
+				
 				if (f8 != state->enemy_wh) {
 					state->enemy_wh = f8;
 					io->set_cursor_position(coords->enemy_wh);
 					io->write_str(state->enemy_wh ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
 				}
 
+
 				if (f9 != state->radar_hack) {
+
 					state->radar_hack = f9;
 					io->set_cursor_position(coords->radar_hack);
 					io->write_str(state->radar_hack ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
+				
 				}
 
 				if (state->enemy_wh || state->radar_hack)
@@ -330,8 +324,6 @@ public:
 			Sleep(1);
 		}
 	}
-
-	
 
 	Hacks(Memory* memory, Client* client) {
 		this->memory = memory;
