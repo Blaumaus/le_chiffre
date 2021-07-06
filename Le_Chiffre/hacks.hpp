@@ -167,13 +167,26 @@ public:
 	} */
 
 	void aim_bot() {
-		PlayerEntity target = _get_closest_enemy();
+		if (GetAsyncKeyState(VK_LBUTTON)) {
+			PlayerEntity target = _get_closest_enemy();
 
-		if (target.valid_player()) {
-			client->set_sensitivity(0.f);
-			player.aim_at(target.get_bone_position(8));
+ 			// In fact, the entire aiming and shooting process will be completed within 2 ticks (for a 64tick server), which has almost no effect on the rate of fire
+			// The side effect is that the thrown object will be thrown immediately, even directly facing the visible enemy. 
+			if (target.valid_player()) {
+				player.set_attack_state(4);
+				client->set_sensitivity(0.f);
+				player.aim_at(target.get_bone_position(8));
+				Sleep(5);
+				player.set_attack_state(5);
+				Sleep((rand() % 11) + 10); // 10-20 ms
+				player.set_attack_state(4);
+				client->reset_sensitivity();
+			} else {
+				client->reset_sensitivity();
+			}	
+		} else {
+			client->reset_sensitivity();
 		}
-		else client->reset_sensitivity();
 	}
 
 	void bunny_hop() {
