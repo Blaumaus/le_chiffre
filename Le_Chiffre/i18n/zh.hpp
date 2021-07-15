@@ -16,8 +16,8 @@ namespace i18n {
 		{XorStr("outdated"), XorStrW(L"需更新")},
 		{XorStr("latest"), XorStrW(L"最新的")},
 		{XorStr("error"), XorStrW(L"错误")},
-		{XorStr("hold"), XorStrW(L"持有")},
-		{XorStr("press"), XorStrW(L"按")},
+		{XorStr("hold"), XorStrW(L"按住")},
+		{XorStr("press"), XorStrW(L"按下")},
 		{XorStr("waiting"), XorStrW(L"等待")},
 		{XorStr("connecting"), XorStrW(L"等待连接")},
 		{XorStr("website"), XorStrW(L"官方网站: https://lechiffre.vercel.app")},
@@ -31,8 +31,8 @@ namespace i18n {
 		{XorStr("no_flash"), XorStrW(L"无视闪光 (F3)")},
 		{XorStr("aimbot"), XorStrW(L"自瞄 (F4)")},
 		{XorStr("triggerbot"), XorStrW(L"自动开枪 (F6)")},
-		{XorStr("use_triggerbot"), XorStrW(L"使用触发机器人 (LAlt)")},
-		{XorStr("glowesp"), XorStrW(L"敌人描边 (F8)")},
+		{XorStr("use_triggerbot"), XorStrW(L"使用自动扳机 (LAlt)")},
+		{XorStr("glowesp"), XorStrW(L"发光透视 (F8)")},
 		{XorStr("radar_hack"), XorStrW(L"雷达透视 (F9)")},
 		{XorStr("exit"), XorStrW(L"退出 (END)")}
 	};
