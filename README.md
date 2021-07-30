@@ -1,5 +1,5 @@
 ![](images/lc_hacks.jpg)
-**Le Chiffre - is a lightweight opensource CS:GO external cheat, which supports lots of features.**
+**Le Chiffre - is a lightweight opensource CS:GO external cheat which supports lots of features.**
 
 ## About
 Le Chiffre - is an external feature-rich hack.\
