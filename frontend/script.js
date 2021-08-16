@@ -47,4 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   insights.trackPages({
     search: true
   })
+
+  analytics.init('ZAX-2szETYGP')
+  analytics.trackViews()
 })
