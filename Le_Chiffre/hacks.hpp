@@ -49,14 +49,14 @@ private:
 	}
 
 	void _enemy_glow(PlayerEntity* target, DWORD glow_obj, float div = 0.f) {
-		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38));
+		GlowStruct gt = memory->read_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38) + 0x4);
 		gt.red = 1.0f - div / 2.f;
 		gt.green = div;
 		gt.blue = 0.f;
 		gt.alpha = 0.9f;
 		gt.redner_occluded = true;
 		gt.render_unoccluded = false;
-		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38), gt);
+		memory->write_mem<GlowStruct>(glow_obj + (target->get_glow_index() * 0x38) + 0x4, gt);
 	}
 
 	/* void _carrier_glow(PlayerEntity* target, DWORD glow_obj) {
