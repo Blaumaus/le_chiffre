@@ -26,7 +26,7 @@ You have to use at least the C++17 standard (due to bsp_parser library requireme
 - CS:GO Overlay to show info like bomb ticker, spectators, etc.
 - Aim assist.
 - Improve ESP (show the bomb, bomb carrier in a different colour, etc).
-- CS:GO offsets autoparser.
+- CS:GO offsets autoparser (or just parse the hazedumper offsets on every launch).
 
 ## Building the cheat yourself
 This project already includes all it's configuration in the .vcxproj file, so if you're using Visual Studio 2019 (or maybe even some earlier versions) it should work and compile fine, just make sure to build it as a x86 Release file.\
