@@ -39,14 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
       download.textContent = 'Direct download'
       download.href = download_url
     })
-    .catch(e => console.log(e))
+    .catch(console.error)
 
-  // setTimeout(check_donation, 5000)
-
-  insights.init('QZXDaLRWC1XvtWGM', { ignoreErrors: true })
-  insights.trackPages({
-    search: true
-  })
+  setTimeout(check_donation, 2500)
 
   analytics.init('ZAX-2szETYGP')
   analytics.trackViews()
