@@ -43,6 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(check_donation, 2500)
 
-  analytics.init('ZAX-2szETYGP')
-  analytics.trackViews()
+  swetrix.init('ZAX-2szETYGP')
+  swetrix.trackViews()
 })
