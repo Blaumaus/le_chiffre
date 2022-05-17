@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(console.error)
 
-  setTimeout(check_donation, 2500)
+  // setTimeout(check_donation, 2500)
 
   swetrix.init('ZAX-2szETYGP')
   swetrix.trackViews()
