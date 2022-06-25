@@ -6,7 +6,7 @@
 
 namespace {
 	// Config
-	const ::std::string CHEAT_VERSION = XorStr("v1.4.28");
+	const ::std::string CHEAT_VERSION = XorStr("v1.4.29");
 	const ::std::string RELEASE_DATE = XorStr("[25 June, 2022]");
 	const wchar_t* HOST = L"api.github.com";
 	const wchar_t* PATH = L"/repos/blaumaus/le_chiffre/tags?per_page=1";
