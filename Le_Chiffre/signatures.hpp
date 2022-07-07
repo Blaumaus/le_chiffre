@@ -3,9 +3,8 @@
 #pragma once
 #include <cstddef>
 
-// 2022-06-24 21:19:52.085284 UTC
+// 2022-07-04 11:40:28.525533100 UTC
 namespace hazedumper {
-	constexpr ::std::int64_t timestamp = 1656105592;
 	namespace netvars {
 		constexpr ::std::ptrdiff_t cs_gamerules_data = 0x0;
 		constexpr ::std::ptrdiff_t m_ArmorValue = 0x117CC;
@@ -89,6 +88,7 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t m_nFallbackSeed = 0x31DC;
 		constexpr ::std::ptrdiff_t m_nFallbackStatTrak = 0x31E4;
 		constexpr ::std::ptrdiff_t m_nForceBone = 0x268C;
+		constexpr ::std::ptrdiff_t m_nModelIndex = 0x258;
 		constexpr ::std::ptrdiff_t m_nTickBase = 0x3440;
 		constexpr ::std::ptrdiff_t m_nViewModelIndex = 0x29D0;
 		constexpr ::std::ptrdiff_t m_rgflCoordinateFrame = 0x444;
@@ -147,11 +147,12 @@ namespace hazedumper {
 		constexpr ::std::ptrdiff_t dwZoomSensitivityRatioPtr = 0xDCB620;
 		constexpr ::std::ptrdiff_t dwbSendPackets = 0xD8422;
 		constexpr ::std::ptrdiff_t dwppDirect3DDevice9 = 0xA6050;
-		constexpr ::std::ptrdiff_t find_hud_element = 0x51C259D0;
+		constexpr ::std::ptrdiff_t find_hud_element = 0x2DFF59D0;
 		constexpr ::std::ptrdiff_t force_update_spectator_glow = 0x3BDCEA;
 		constexpr ::std::ptrdiff_t interface_engine_cvar = 0x3EA3C;
 		constexpr ::std::ptrdiff_t is_c4_owner = 0x3CAD70;
 		constexpr ::std::ptrdiff_t m_bDormant = 0xED;
+		constexpr ::std::ptrdiff_t m_bIsLocalPlayer = 0x3628;
 		constexpr ::std::ptrdiff_t m_flSpawnTime = 0x103C0;
 		constexpr ::std::ptrdiff_t m_pStudioHdr = 0x2950;
 		constexpr ::std::ptrdiff_t m_pitchClassPtr = 0x5210940;
