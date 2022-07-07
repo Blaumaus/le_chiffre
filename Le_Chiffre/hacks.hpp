@@ -206,16 +206,22 @@ public:
 
 	// Thread methods:
 	void thread_trigger_bot(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Trigger bot - LAlt, F6
+		bool f6_released = true;
 		while (true) {
 			if (state->game) {
-				bool f6 = GetKeyState(VK_F6) & 0x0001;
+				bool f6_pressing = GetKeyState(VK_F6) < 0;
 				bool lalt = GetAsyncKeyState(VK_LMENU);
 				bool l_mouse = GetAsyncKeyState(VK_LBUTTON);
 
-				if (f6 != state->activate_trigger) {
-					state->activate_trigger = f6;
-					io->set_cursor_position(coords->activate_trigger);
-					io->write_str(state->activate_trigger ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f6_pressing) {
+					if (f6_released) {
+						state->activate_trigger = !state->activate_trigger;
+						io->set_cursor_position(coords->activate_trigger);
+						io->write_str(state->activate_trigger ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->activate_trigger ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f6_released = false;
+					}
+				} else {
+					f6_released = true;
 				}
 
 				if (state->activate_trigger && lalt && !l_mouse) trigger_bot(client->is_dangerzone());
@@ -227,14 +233,21 @@ public:
 	}
 
 	void thread_aimbot(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Aimbot - F4
+		bool f4_released = true;
 		while (true) {
 			if (state->game) {
-				bool f4 = GetKeyState(VK_F4) & 0x0001;
+				bool f4_pressing = GetKeyState(VK_F4) < 0;
 
-				if (f4 != state->aimbot) {
-					state->aimbot = f4;
-					io->set_cursor_position(coords->aimbot);
-					io->write_str(state->aimbot ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f4_pressing) {
+					if (f4_released) {
+						state->aimbot = !state->aimbot;
+						io->set_cursor_position(coords->aimbot);
+						io->write_str(state->aimbot ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->aimbot ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f4_released = false;
+					}
+				}
+				else {
+					f4_released = true;
 				}
 
 				if (state->aimbot) aim_bot();
@@ -247,21 +260,36 @@ public:
 	}
 
 	void thread_glow_radar(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Glow ESP - F8; Radar hack - F9
+		bool f8_released = true;
+		bool f9_released = true;
+
 		while (true) {
 			if (state->game) {
-				bool f8 = GetKeyState(VK_F8) & 0x0001; // Enemy glow ESP
-				bool f9 = GetKeyState(VK_F9) & 0x0001; // Radar hack
+				bool f8_pressing = GetKeyState(VK_F8) < 0; // Enemy glow ESP
+				bool f9_pressing = GetKeyState(VK_F9) < 0; // Radar hack
 
-				if (f8 != state->enemy_wh) {
-					state->enemy_wh = f8;
-					io->set_cursor_position(coords->enemy_wh);
-					io->write_str(state->enemy_wh ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f8_pressing) {
+					if (f8_released) {
+						state->enemy_wh = !state->enemy_wh;
+						io->set_cursor_position(coords->enemy_wh);
+						io->write_str(state->enemy_wh ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->enemy_wh ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f8_released = false;
+					}
+				}
+				else {
+					f8_released = true;
 				}
 
-				if (f9 != state->radar_hack) {
-					state->radar_hack = f9;
-					io->set_cursor_position(coords->radar_hack);
-					io->write_str(state->radar_hack ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f9_pressing) {
+					if (f9_released) {
+						state->radar_hack = !state->radar_hack;
+						io->set_cursor_position(coords->radar_hack);
+						io->write_str(state->radar_hack ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->radar_hack ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f9_released = false;
+					}
+				}
+				else {
+					f9_released = true;
 				}
 
 				if (state->enemy_wh || state->radar_hack)
@@ -274,14 +302,21 @@ public:
 	}
 
 	void thread_no_flash(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // No flash - F3
+		bool f3_released = true;
 		while (true) {
 			if (state->game) {
-				bool f3 = GetKeyState(VK_F3) & 0x0001;
+				bool f3_pressing = GetKeyState(VK_F3) < 0;
 
-				if (f3 != state->no_flash) {
-					state->no_flash = f3;
-					io->set_cursor_position(coords->no_flash);
-					io->write_str(state->no_flash ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f3_pressing) {
+					if (f3_released) {
+						state->no_flash = !state->no_flash;
+						io->set_cursor_position(coords->no_flash);
+						io->write_str(state->no_flash ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->no_flash ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f3_released = false;
+					}
+				}
+				else {
+					f3_released = true;
 				}
 
 				if (state->no_flash) no_flash();
@@ -293,15 +328,22 @@ public:
 	}
 
 	void thread_bunny_hop(hacks_state* state, hacks_coords* coords, ConsoleIO* io, Internalisation* i) { // Bunny hop - F2
+		bool f2_released = true;
 		while (true) {
 			if (state->game) {
-				bool f2 = GetKeyState(VK_F2) & 0x0001;
+				bool f2_pressing = GetKeyState(VK_F2) < 0;
 				bool space = GetAsyncKeyState(VK_SPACE);
 
-				if (f2 != state->bunny_hop) {
-					state->bunny_hop = f2;
-					io->set_cursor_position(coords->bunny_hop);
-					io->write_str(f2 ? i->translate(XorStr("on")) : i->translate(XorStr("off")), f2 ? FOREGROUND_GREEN : FOREGROUND_RED);
+				if (f2_pressing) {
+					if (f2_released) {
+						state->bunny_hop = !state->bunny_hop;
+						io->set_cursor_position(coords->bunny_hop);
+						io->write_str(state->bunny_hop ? i->translate(XorStr("on")) : i->translate(XorStr("off")), state->bunny_hop ? FOREGROUND_GREEN : FOREGROUND_RED);
+						f2_released = false;
+					}
+				}
+				else {
+					f2_released = true;
 				}
 
 				if (state->bunny_hop && space) bunny_hop();
