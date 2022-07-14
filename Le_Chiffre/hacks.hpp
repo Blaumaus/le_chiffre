@@ -72,7 +72,7 @@ private:
 
 	// returns an entity which is visible and closest to local player on XYZ axis coordinates
 	// if no players are located near local player, it will return an invalid PlayerEntity object
-	PlayerEntity _get_closest_enemy(int bone_id = 8) {
+	PlayerEntity _get_closest_visible_enemy(int bone_id = 8) {
 		float closest_distance = 10000000; // initial closest distance between local player and an enemy
 		PlayerEntity closest_enemy;
 		int player_team = player.get_team();
@@ -168,7 +168,7 @@ public:
 
 	void aim_bot() {
 		if (GetAsyncKeyState(VK_LBUTTON)) {
-			PlayerEntity target = _get_closest_enemy();
+			PlayerEntity target = _get_closest_visible_enemy();
 
  			// In fact, the entire aiming and shooting process will be completed within 2 ticks (for a 64tick server), which has almost no effect on the rate of fire
 			// The side effect is that the thrown object will be thrown immediately, even directly facing the visible enemy. 
