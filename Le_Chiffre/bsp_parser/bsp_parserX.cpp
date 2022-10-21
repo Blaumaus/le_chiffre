@@ -488,11 +488,11 @@
 #define C1E0 C1D5 C1D6 C1D7 C1D8 C1D9 C1DA C1DB C1DC C1DD C1DE
 #define C1E1 C1DF 
 #define C1E2 C1E0 C1E1 
-#define C1E3(__YKK__) __YKK__
+#define C1E3(__FOX__) __FOX__
 C1E3(C1E2)
 #if defined(RN_BSP_PARSER_MESSAGES)
 #define C1E4 C1CD 
-#define C1E5(__YKK__) __YKK__
+#define C1E5(__FOX__) __FOX__
 C1E5(C1E4)
 #endif
 #define C1E6 C67 C4E C1 C37 C184 C111 C44 C10 C4 C19B
@@ -630,27 +630,27 @@ C1E5(C1E4)
 #define C26A C25E C25F C260 C261 C262 C263 C264 C265 C266 C267
 #define C26B C268 C269 
 #define C26C C26A C26B 
-#define C26D(__YKK__) __YKK__
+#define C26D(__FOX__) __FOX__
 C26D(C26C)
 #if defined(RN_BSP_PARSER_MESSAGES)
 #define C26E C1CE 
-#define C26F(__YKK__) __YKK__
+#define C26F(__FOX__) __FOX__
 C26F(C26E)
 #endif
 #define C270 C67 C65 C1 C2C C4 C1C5 C164 
-#define C271(__YKK__) __YKK__
+#define C271(__FOX__) __FOX__
 C271(C270)
 #if defined(RN_BSP_PARSER_MESSAGES)
 #define C272 C27 C16D CE C144 C4 C1D4 C1 
-#define C273(__YKK__) __YKK__
+#define C273(__FOX__) __FOX__
 C273(C272)
 #endif
 #define C274 C27 C1C4 C4 
-#define C275(__YKK__) __YKK__
+#define C275(__FOX__) __FOX__
 C275(C274)
 #if defined(RN_BSP_PARSER_MESSAGES)
 #define C276 C1D0 
-#define C277(__YKK__) __YKK__
+#define C277(__FOX__) __FOX__
 C277(C276)
 #endif
 #define C278 C67 C65 C1 C67 C12E C196 CB5 C19 C148 C19
@@ -671,5 +671,5 @@ C277(C276)
 #define C287 C278 C279 C27A C27B C27C C27D C27E C27F C280 C281
 #define C288 C282 C283 C284 C285 C286 
 #define C289 C287 C288 
-#define C28A(__YKK__) __YKK__
+#define C28A(__FOX__) __FOX__
 C28A(C289)

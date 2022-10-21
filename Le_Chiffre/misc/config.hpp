@@ -7,7 +7,7 @@
 namespace {
 	// Config
 	const ::std::string CHEAT_VERSION = XorStr("v1.5.2");
-	const ::std::string RELEASE_DATE = XorStr("[21 Oct, 2022]");
+	const ::std::string RELEASE_DATE = XorStr("[21 Oct, 2022] -m1tZw Kai");
 	const wchar_t* HOST = L"api.github.com";
 	const wchar_t* PATH = L"/repos/blaumaus/le_chiffre/tags?per_page=1";
 	const wchar_t* TARGET = L"csgo.exe";
@@ -25,15 +25,16 @@ namespace {
 	};
 
 	struct hacks_state {
-		bool no_flash = false;
-		bool activate_trigger = false;
-		bool use_trigger = false;
-		bool enemy_wh = false;
-		bool radar_hack = false;
-		bool bunny_hop = false;
-		bool aimbot = false;
-		bool process = false; 
-		bool game = false;
+		//for debug so i made these all open
+		bool no_flash = true;
+		bool activate_trigger = true;
+		bool use_trigger = true;
+		bool enemy_wh = true;
+		bool radar_hack = true;
+		bool bunny_hop = true;
+		bool aimbot = true;
+		bool process = true;
+		bool game = true;
 	};
 }
 #endif
