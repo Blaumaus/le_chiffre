@@ -2,12 +2,13 @@
 **Le Chiffre - is a lightweight opensource CS:GO external cheat which supports lots of features.**
 
 ## About
-Le Chiffre - is an external feature-rich hack.\
-Since it is a public cheat, I strongly recommend reimplementing the cheat logic to make it as unique as possible, or at least changing the filename (as well as it's hash) of the executable file after compilation to minimise the VAC ban risks.\
-Also it might be useful to add some junk code in some cases (probably you'd have to turn compiler optimisations off before doing it).\
-It's recommended to use [VAC Bypass](https://github.com/danielkrupinski/VAC-Bypass-Loader) to bypass anti-cheat scan and drastically reduce the likelihood of a VAC ban.\
-\
-You have to use at least the C++17 standard (due to bsp_parser library requirements) to compile the cheat.\
+Le Chiffre - is an external feature-rich hack.
+
+This project was made purely for educational purposes, as a proof of concept. I wanted to learn about reverse engineering, low level programming and C/C++, so I made this. I discourage cheating in multiplayer games and anyone using this software for such purposes.
+
+It has been fun doing this project, but it is time to let it go. I will not be updating it for CS2. I've tried to make this software as simple and easy to understand as possible, so if you want to learn reverse engineering, this might be a good place to start :)
+
+You must use at least the C++17 standard (due to the bsp_parser library requirements) to compile the cheat.
 [Le Chiffre official website](https://lechiffre.now.sh)
 
 ![](images/lechiffre_mainmenu.png)
